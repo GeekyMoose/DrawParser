@@ -20,7 +20,8 @@ public abstract class DebugTrack {
     //**************************************************************************
     // Constants - variables
     //**************************************************************************
-    private static final boolean debug_mode    = true;
+    private static final boolean debug_mode         = true;
+    private static final boolean debug_mode_brief   = true;
     
     
     //**************************************************************************
@@ -34,6 +35,9 @@ public abstract class DebugTrack {
         if(debug_mode == false){return;}
         if(pToken == null){
             System.err.println(" *** Debug in '"+DebugTrack.getfctName()+" : Token given is null!");
+        } 
+        else if (debug_mode_brief == true){
+            System.out.println(pToken.toString());
         } else{
             System.out.println(" *** Debug in '"+DebugTrack.getfctName()+" : "+pToken.toString());
         }

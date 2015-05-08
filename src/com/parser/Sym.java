@@ -27,31 +27,34 @@ public enum Sym {
     MULTIPLY("*"),
     DIV("/"),
     
+    //Prgram
+    PROG("PROG"),
+    
     //Actions
-    UP("Up"),
-    DOWN("Down"),
-    MOVE("Move"),
-    ROTATE("Rotate"),
+    UP("UP"),
+    DOWN("DOWN"),
+    MOVE("MOVE"),
+    ROTATE("ROTATE"),
     
     //Check elements
     EQ("=="),
-    IF("if"),
-    ELIF("elif"),
-    ELSE("else"),
+    IF("IF"),
+    ELIF("ELIF"),
+    ELSE("ELSE"),
     
     //Check elements
-    WHILE("While"),
-    FOR("For"),
+    WHILE("WHILE"),
+    FOR("FOR"),
     
     
     //Variables
-    VAR_CREA("Var"),
-    VAR_NAME("Variable name"),
-    NUMBER_INT("Integer Number"),
+    VAR_CREA("VAR_CREA"),
+    VAR_NAME("VAR_NAME"),
+    NUMBER_INT("NUMBER_INT"),
     ASSIGN("="),
     
     //Other
-    EOF ("EoF"); //token representinting the end of file
+    EOF("EOF"); //token representinting the end of file
 
 
     //**************************************************************************

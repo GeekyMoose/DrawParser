@@ -10,26 +10,29 @@ import com.asset.LexerException;
 %column
 
 %{
-	//package com.parser;
+    /*
+     * NOTE : 
+     * yyline start at 0, actual line is yyline + 1
+     */
     
   	private Token getToken(Sym type) {
-      	return new Token(type, yyline);
+      	return new Token(type, yyline+1);
   	}
 
   	private IntToken getToken(Sym pType, int pValue) {
-      	return new IntToken(pType, yyline, pValue);
+      	return new IntToken(pType, yyline+1, pValue);
   	}
 
     private StrToken getToken(Sym pType, String pValue){
-        return new StrToken(pType, yyline, pValue);
+        return new StrToken(pType, yyline+1, pValue);
     }
 
     public int getLine(){
-        return yyline;
+        return yyline+1;
     }
 
     public int getColumn(){
-        return yycolumn;
+        return yycolumn+1;
     }
 %}
 
@@ -40,6 +43,8 @@ import com.asset.LexerException;
 
 
 blank               = "\n" | "\r" | " " | "\t"
+
+prog                = "prog"
 
 if                  = "if"
 elif                = "elif" | "else if"
@@ -75,6 +80,8 @@ down                = "down" | "Down" | "DOWN"
 	"*"             {return getToken(Sym.MULTIPLY);}
 	"/"             {return getToken(Sym.DIV);}
 
+    {prog}          {return getToken(Sym.PROG);}
+
     {up}            {return getToken(Sym.UP);}
     {down}          {return getToken(Sym.DOWN);}
     {move}          {return getToken(Sym.MOVE);}
@@ -96,7 +103,7 @@ down                = "down" | "Down" | "DOWN"
 
     {blank}         {}
     <<EOF>>         {return getToken(Sym.EOF);}
-    [^]             {throw new LexerException(yyline, yycolumn);}
+    [^]             {throw new LexerException(yytext(), yyline+1, yycolumn+1);}
 }
 
 
