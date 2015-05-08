@@ -1,0 +1,23 @@
+VAR x;
+VAR y;
+VAR z;
+x = 3;
+z = 0;
+PRINT 1;
+PRINT 2;
+PRINT 4;
+FOR (2 + x) TIMES {
+	y = 10;
+	z = (x + y);
+	PRINT z;
+}
+
+x = 1;
+VAR k;
+k = 1;
+FOR 10 TIMES{
+	x = (x * k);
+	k = (k + 1);
+}
+
+PRINT x;
