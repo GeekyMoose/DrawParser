@@ -18,4 +18,26 @@ prog{
     if (angle+5 == 90){
         rotate 90;
     }
+    
+    for (angle + 10 - 49 + 100){
+        rotate angle;
+    }
+    
+    
+    
+    //This is a big big valid if (elif and elseif are valid)
+    if(angle + 5 == angle){
+        move 9;
+        if(agnle == 0){}
+        else{ move 89;}
+    }
+    else if(angle == 0){
+        move 2;
+    }
+    elif (angle == 9){
+        
+    }
+    else {
+        move 42;
+    }
 }

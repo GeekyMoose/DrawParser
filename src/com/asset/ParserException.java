@@ -27,17 +27,17 @@ public class ParserException extends Exception {
     }
     
     /**
-     * @deprecated Not used (Use the one with Sym and Token instead)
      * Create a new Parser Exception displaying error message from parser. 
      * It is usually thown when a unexpected Token is found. This exception 
      * display token expected and token found, it also display line where if 
-     * was found
-     * @param pFound        
-     * @param pExpected
-     * @param pLine 
+     * was found      
+     * @param pExpected element expected (String description)
+     * @param pFound    Token found instead
      */
-	public ParserException(String pExpected, String pFound, int pLine) {
-		super("Unexpected Token line "+pLine+" : "+pExpected+" expected, "+pFound+" found! ");
+	public ParserException(String pExpected, Token pFound) {
+		super("Unexpected Token line "+pFound.getLine()
+              +" : "+pExpected+" expected, "
+              +pFound.getSymbol()+" found! ");
 	}
     
     /**

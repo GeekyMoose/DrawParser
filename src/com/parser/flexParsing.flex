@@ -44,6 +44,7 @@ import com.asset.LexerException;
 
 blank               = "\n" | "\r" | " " | "\t"
 
+
 prog                = "prog"
 
 if                  = "if"
@@ -66,8 +67,14 @@ down                = "down" | "Down" | "DOWN"
 
 
 
+%state IN_BLOCK_COMMENT
+%state IN_LINE_COMMENT
+%state IN_STR
 %%
 <YYINITIAL> {
+	"\""            {yybegin(IN_STR);}
+  	"/*"            {yybegin(IN_BLOCK_COMMENT);}
+  	"//"            {yybegin(IN_LINE_COMMENT);}
    	"("             {return getToken(Sym.L_PAR);}
    	")"             {return getToken(Sym.R_PAR);}
    	"{"             {return getToken(Sym.L_CB);}
@@ -106,5 +113,19 @@ down                = "down" | "Down" | "DOWN"
     [^]             {throw new LexerException(yytext(), yyline+1, yycolumn+1);}
 }
 
+<IN_BLOCK_COMMENT> {
+  	"*/"  		{yybegin(YYINITIAL);}
+  	[^]    		{}
+}
 
+<IN_LINE_COMMENT> {
+ 	"\n"   		{yybegin(YYINITIAL);}
+  	[^]    		{}
+}
 
+<IN_STR> {
+	"\\\""		{}
+	"\""        {yybegin(YYINITIAL);}
+  	.			{}
+	
+}
