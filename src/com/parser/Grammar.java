@@ -4,8 +4,8 @@
  */
 package com.parser;
 
-import com.asset.AppError;
-import com.asset.ParserException;
+import com.exceptions.AppError;
+import com.exceptions.ParserException;
 
 
 /**

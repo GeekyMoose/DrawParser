@@ -1,3 +1,7 @@
+/*
+ * This is a comment not parsed by grammar
+ * 
+ */
 prog{
     Var angle;
     down;
@@ -29,7 +33,7 @@ prog{
     if(angle + 5 == angle){
         move 9;
         if(agnle == 0){}
-        else{ move 89;}
+        else{ move 89; }
     }
     else if(angle == 0){
         move 2;
