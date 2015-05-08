@@ -108,11 +108,11 @@ public class LookAhead1  {
     // useful functions
     //**************************************************************************
     /**
-     * Call toString for current Token
-     * @return String displaying current token infomation
+     * Return current Token
+     * @return Token 
      */
-    public String getCurrentTokenString() {
-        return this.currentToken.toString();
+    public Token getCurrentToken() {
+        return this.currentToken;
     }
     
     /**
