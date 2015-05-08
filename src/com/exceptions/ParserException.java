@@ -2,7 +2,7 @@
  * Creation : May 8, 2015
  * Project Computer Science L2 Semester 4 - DrawParser
  */
-package com.asset;
+package com.exceptions;
 
 import com.parser.Sym;
 import com.parser.Token;

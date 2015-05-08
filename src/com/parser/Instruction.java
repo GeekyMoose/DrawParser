@@ -10,6 +10,7 @@ package com.parser;
  * <h1>Instruction</h1>
  * <p>public abstract class Instruction</p>
  *
+ * 
  * @date    May 8, 2015
  * @author  Constantin MASSON
  */

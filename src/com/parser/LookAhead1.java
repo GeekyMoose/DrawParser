@@ -4,9 +4,9 @@
  */
 package com.parser;
 
-import com.asset.AppError;
-import com.asset.LexerException;
-import com.asset.ParserException;
+import com.exceptions.AppError;
+import com.exceptions.LexerException;
+import com.exceptions.ParserException;
 import com.main.DebugTrack;
 import java.io.IOException;
 

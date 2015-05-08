@@ -4,9 +4,9 @@
  */
 package com.parser;
 
-import com.asset.AppError;
-import com.asset.ForbiddenAction;
-import com.asset.ParserException;
+import com.exceptions.AppError;
+import com.exceptions.ForbiddenAction;
+import com.exceptions.ParserException;
 import java.io.*;
 
 

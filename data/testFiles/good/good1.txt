@@ -1,3 +1,7 @@
+/*
+ * This is a comment not parsed by grammar
+ * This text is working
+ */
 prog{
     Var angle;
     down;
