@@ -29,7 +29,9 @@ public class Parser {
     //**************************************************************************
     // Variables - Constants
     //**************************************************************************
-    private     Grammar         grammar; //Grammar used
+    public      static final int    MODE_INTERPRETER        = 1;
+    public      static final int    MODE_GENERAL            = 2;
+    private     Grammar             grammar; //Grammar used
     
     
     //**************************************************************************
@@ -49,20 +51,35 @@ public class Parser {
     // Functions 
     //**************************************************************************
     /**
-     * Start the parser. it will parse a given text (Text is from a file given 
-     * as parameter)
+     * 
+     * Start to process a text using parser grammar. Text is process from a 
+     * Lexer class (Created in this function). LookAhead1 is the current 
+     * position in Lexer. (Lexer is a generated class by JFlex). 
+     * Throws exception if bad mode given
+     * 
+     * @param pMode     reading mode for this parsing
      * @param pFilePath path of the file (if file is hi.txt -> path/file/hi.txt)
      * @throws ParserException thrown if text given is not valid
      * @throws ForbiddenAction thrown if unable to load file
      * @throws AppError thrown if critical program error
      */
-    public void startParser(String pFilePath) throws ForbiddenAction, ParserException, AppError{
+    public void startParser(int pMode, String pFilePath) throws ForbiddenAction, ParserException, AppError{
         try{
             File        input   = new File(pFilePath);
             Reader      r       = new FileReader(input);
             Lexer       lexer   = new Lexer(r);
             LookAhead1  look    = new LookAhead1(lexer);
-            this.grammar.processGrammar(Grammar.MODE_GENERAL, look);
+            
+            switch(pMode){
+                case Parser.MODE_GENERAL:
+                    this.grammar.processGeneralMode(look);
+                    break;
+                case Parser.MODE_INTERPRETER:
+                    this.grammar.processInterpreterMode(look);
+                    break;
+                default:
+                    throw new AppError("Unkow parsing mode");
+            }
         }
         catch(FileNotFoundException ex){
             throw new ForbiddenAction("Unable to load file "+pFilePath
@@ -70,8 +87,6 @@ public class Parser {
         }
     }
     
-    
-
     
     //**************************************************************************
     // Getters - Setters 

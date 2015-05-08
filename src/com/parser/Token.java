@@ -29,7 +29,7 @@ public class Token {
     }
     @Override
     public String toString(){
-    	return "Token :"+this.symbol.toString()+" at position : "+this.linePosition;
+    	return "Token : "+this.symbol.toString()+" at position : "+this.linePosition;
     }
 }
 

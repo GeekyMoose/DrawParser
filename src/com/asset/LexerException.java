@@ -22,8 +22,8 @@ public class LexerException extends Exception {
         super(pMsg);
     }
     
-	public LexerException(int line, int column) {
-		super("Unexpected character at line "+line+" column "+column+".");
+	public LexerException(String pGiven, int line, int column) {
+		super("Unknown character at line "+line+" column "+column+" : "+pGiven);
 	}
 }
 

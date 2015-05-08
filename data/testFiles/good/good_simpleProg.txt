@@ -1,0 +1,21 @@
+prog{
+    Var angle;
+    down;
+    angle = 90 - 0;
+    move 10;
+    rotate angle;
+    move 10;
+    rotate angle;
+    move 10;
+    rotate angle;
+    move 10;
+    
+    
+    while    (angle == 10){
+        move 40;
+    }
+    
+    if (angle+5 == 90){
+        rotate 90;
+    }
+}

@@ -26,8 +26,6 @@ public abstract class Grammar{
     //**************************************************************************
     // Variables - Constants
     //**************************************************************************
-    public      static final int    MODE_INTERPRETER        = 1;
-    public      static final int    MODE_GENERAL            = 2;
     protected   LookAhead1          reader; //Current position in the reader
     
     
@@ -38,41 +36,36 @@ public abstract class Grammar{
 		//Nothing, reader will be set later (When start)
 	}
     
+    
+    //**************************************************************************
+    // Functions
+    //**************************************************************************
     /**
-     * Start to process a text using this grammar. Text is process from a 
-     * Lexer class (Create before from Parser). LookAhead1 is the current 
-     * position in Lexer. (Lexer is a generated class by JFlex). 
-     * Do nothing if a bad mode is given
-     * @param pMode     current reading mode
-     * @param pLook     reader for this process.
-     * @throws AppError Exception thrown if pParser if null or wrong mode
+     * Process grammar with general mode
+     * LookAhead1 is the current position in Lexer.
+     * @param pLook reader for file to process
+     * @throws AppError thrown if critical error during processing (Bad file etc)
+     * @throws ParserException thrown if text is not valid
      */
-    public void processGrammar(int pMode, LookAhead1 pLook) throws AppError{
+    public void processGeneralMode(LookAhead1 pLook) throws AppError, ParserException{
         if(pLook == null){
-            throw new AppError();
+            throw new AppError("LookAhead1 mustn't be null");
         }
         this.reader = pLook;
-        switch(pMode){
-            case MODE_GENERAL:
-                this.processGeneralMode();
-                break;
-            case MODE_INTERPRETER:
-                this.processInterpreterMode();
-                break;
-            default:
-                throw new AppError("Unkow parsing mode");
-        }
     }
     
     /**
-     * Process grammar with general mode
-     */
-    protected abstract void processGeneralMode();
-    
-    /**
      * Process grammar with interpreter mode
+     * @param pLook reader for file to process
+     * @throws AppError thrown if critical error during processing (Bad file etc)
+     * @throws ParserException thrown if text is not valid
      */
-    protected abstract void processInterpreterMode();
+    public void processInterpreterMode(LookAhead1 pLook) throws AppError, ParserException{
+        if(pLook == null){
+            throw new AppError("LookAhead1 mustn't be null");
+        }
+        this.reader = pLook;
+    }
     
     /**
      * Display the grammar rules
@@ -80,63 +73,4 @@ public abstract class Grammar{
      */
     @Override
     public abstract String toString();
-}
-
-
-
-/**
- * <h1>Grammar1</h1>
- * <p>
- * class Grammar1<br/>
- * extends Grammar
- * </p>
- * 
- * @date    May 8, 2015
- * @author  Constantin MASSON
- */
-class Grammar1 extends Grammar{
-    //**************************************************************************
-    // Functions from Grammar
-    //**************************************************************************
-    @Override
-    protected void processGeneralMode(){
-    
-    }
-
-    @Override
-    protected void processInterpreterMode(){
-    
-    }
-    
-    @Override
-    public String toString(){
-        return null;
-    }
-    
-	
-    //**************************************************************************
-    // Not term functions
-    //**************************************************************************
-    /**
-     * Code -> Prog$
-     */
-    public Program nontermCode() throws Exception {
-        //Program prog = notermProg();
-        reader.eat(Sym.EOF);
-        return null;
-    }
-    
-    
-    //**************************************************************************
-    // Term functions
-    //**************************************************************************
-    /**
-     * Check if c is a term
-     * @param c char to process
-     * @throws AppError thrown if critical program error 
-     * @throws ParserException thrown if current token is unexpected
-     */
-    public void term (Sym c) throws AppError, ParserException{
-        this.reader.eat(c);
-    }
 }
