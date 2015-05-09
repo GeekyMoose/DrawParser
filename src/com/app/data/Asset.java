@@ -6,9 +6,10 @@
 package com.app.data;
 
 import com.exceptions.ForbiddenAction;
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 
 
@@ -33,34 +34,33 @@ public abstract class Asset {
      * @throws ForbiddenAction thrown if error occur (File null etc)
      */
     public static String getStrFromFile(File pFile) throws ForbiddenAction{
-        String          str = null;
-        FileInputStream file= null;
-        try {
-            file            = new FileInputStream(pFile);
-            byte[]  buf     = new byte[8];
-            int     n       = 0;
-            while((n=file.read(buf)) >=0){
-                for(byte bit : buf){
-                    str += (char)bit;
-                }
-                buf = new byte[8];
-            }
-        } 
-        catch(FileNotFoundException ex){
+        if(pFile == null){
             throw new ForbiddenAction("Unable to load the file");
         }
-        catch(IOException ex) {
-                throw new ForbiddenAction("Error during file reading");
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(pFile));
+            StringBuilder   sb      = new StringBuilder();
+            String          line    = br.readLine();
+            while (line != null) {
+                sb.append(line);
+                sb.append("\n");
+                line = br.readLine();
+            }
+            return sb.toString();
         } 
-        finally{
-            try{
-                if(file != null){
-                    file.close();
-                }
+        catch(FileNotFoundException ex) {
+            throw new ForbiddenAction("Unable to load the file");
+        } 
+        catch(IOException ex) {
+            throw new ForbiddenAction("Error during file reading");
+        } 
+        finally {
+            try {
+                br.close();
             } catch(IOException ex) {
                 throw new ForbiddenAction("Error during file reading");
             }
         }
-        return str;
     }
 }
