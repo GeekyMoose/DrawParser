@@ -1,47 +1,6 @@
-/*
- * This is a comment not parsed by grammar
- * This text is working
- */
-prog{
-    Var angle;
-    down;
-    angle = 90 - 0;
-    move 10;
-    rotate angle;
-    move 10;
-    rotate angle;
-    move 10;
-    rotate angle;
-    move 10;
-    
-    
-    while    (angle == 10){
-        move 40;
-    }
-    
-    if (angle+5 == 90){
-        rotate 90;
-    }
-    
-    for (angle + 10 - 49 + 100){
-        rotate angle;
-    }
-    
-    
-    
-    //This is a big big valid if (elif and elseif are valid)
-    if(angle + 5 == angle){
-        move 9;
-        if(agnle == 0){}
-        else{ move 89; }
-    }
-    else if(angle == 0){
-        move 2;
-    }
-    elif (angle == 9){
-        
-    }
-    else {
-        move 42;
-    }
-}
+dawdawdadsdasdsda
+d
+fs
+fase
+f
+ase

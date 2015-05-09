@@ -4,8 +4,8 @@
  */
 package com.exceptions;
 
-import com.parser.Sym;
-import com.parser.Token;
+import com.parser.asset.Sym;
+import com.parser.asset.Token;
 
 /**
  * <h1>ParserException</h1>

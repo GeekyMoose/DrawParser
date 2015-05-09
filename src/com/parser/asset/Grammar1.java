@@ -2,10 +2,12 @@
  * Creation : May 8, 2015
  * Project Computer Science L2 Semester 4 - DrawParser
  */
-package com.parser;
+package com.parser.asset;
 
 import com.exceptions.AppError;
 import com.exceptions.ParserException;
+import com.parser.instructions.actions.*;
+import com.parser.instructions.asset.*;
 
 
 /**

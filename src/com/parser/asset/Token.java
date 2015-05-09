@@ -2,7 +2,7 @@
  * Creation : May 8, 2015
  * Project Computer Science L2 Semester 4 - DrawParser
  */
-package com.parser;
+package com.parser.asset;
 
 /**
  * <h1>Token</h1>
