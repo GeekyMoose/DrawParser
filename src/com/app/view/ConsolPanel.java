@@ -8,8 +8,10 @@ import com.app.data.AppController;
 import com.exceptions.AppError;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -49,7 +51,8 @@ public class ConsolPanel extends ContentPanel{
      */
     public ConsolPanel(Application pParent, AppController pController) throws AppError{
         super(pParent, pController);
-        this.setPreferredSize(new Dimension(300, 200));
+        this.setPreferredSize(new Dimension(400, 200));
+        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         this.initComponents();
         this.setActionCommand();
     }
@@ -63,6 +66,10 @@ public class ConsolPanel extends ContentPanel{
         this.scroll         .setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         this.scroll         .setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         this.screenConsol   .setEditable(false);
+        this.screenConsol   .setTabSize(4);
+        this.screenConsol   .setMargin(new Insets(10,10,10,10));
+        this.command        .setMargin(new Insets(10,10,10,10));
+        
         
         this                .setLayout(new BorderLayout());
         this.wrapper        .setLayout(new BorderLayout());

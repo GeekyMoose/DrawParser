@@ -10,10 +10,16 @@ import com.exceptions.ExecError;
 import com.exceptions.ForbiddenAction;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Insets;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -36,8 +42,18 @@ public class CodePanel extends ContentPanel{
     // Constants - Variables
     //**************************************************************************
     private     JPanel          wrapper;
+    private     JPanel          wrap_data;
+    
     private     JTextArea       text;
     private     JScrollPane     scroll;
+    
+    private     JLabel          l_titleNbLines;
+    private     JLabel          l_titleNbChar;
+    private     JLabel          l_nbLines;
+    private     JLabel          l_nbChar;
+    
+    
+    
     
     
     //**************************************************************************
@@ -51,24 +67,67 @@ public class CodePanel extends ContentPanel{
      */
     public CodePanel(Application pParent, AppController pController) throws AppError{
         super(pParent, pController);
-        this.setPreferredSize(new Dimension(300, 500));
+        this.setPreferredSize(new Dimension(400, 800));
+        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         this.initComponents();
+        this.updateNbChar();
+        this.updateNbLines();
+        this.setKeyActions();
     }
     
     private void initComponents(){
-        this.wrapper    = new JPanel();
-        this.text       = new JTextArea();
-        this.scroll     = new JScrollPane(this.text);
+        this.wrapper        = new JPanel();
+        this.text           = new JTextArea();
+        this.scroll         = new JScrollPane(this.text);
         
-        this.scroll     .setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        this.scroll     .setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        this.text       .setEditable(true);
+        this.wrap_data      = new JPanel();
+        this.l_nbLines      = new JLabel("0");
+        this.l_nbChar       = new JLabel("0");
+        this.l_titleNbLines = new JLabel("Lines : ");
+        this.l_titleNbChar  = new JLabel("Char : ");
         
-        this            .setLayout(new BorderLayout());
-        this.wrapper    .setLayout(new BorderLayout());
+        this.scroll         .setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        this.scroll         .setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        this.text           .setEditable(true);
+        this.text           .setTabSize(4);
+        this.text           .setMargin(new Insets(10,10,10,10));
         
-        this.wrapper    .add(this.scroll, BorderLayout.CENTER);
-        this            .add(this.wrapper, BorderLayout.CENTER);
+        this                .setLayout(new BorderLayout());
+        this.wrapper        .setLayout(new BorderLayout());
+        this.wrap_data      .setLayout(new FlowLayout());
+        
+        this.wrap_data      .add(this.l_titleNbLines);
+        this.wrap_data      .add(this.l_nbLines);
+        this.wrap_data      .add(this.l_titleNbChar);
+        this.wrap_data      .add(this.l_nbChar);
+        this.wrapper        .add(this.wrap_data, BorderLayout.SOUTH);
+        this.wrapper        .add(this.scroll, BorderLayout.CENTER);
+        this                .add(this.wrapper, BorderLayout.CENTER);
+    }
+    
+    /**
+     * Set action when tape in the textArea (Update data)
+     */
+    private void setKeyActions(){
+        this.text.addKeyListener(
+            new KeyListener() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    updateNbChar();
+                    updateNbLines();
+                }
+
+                @Override
+                public void keyReleased(KeyEvent e) {
+                    updateNbChar();
+                    updateNbLines();
+                }
+
+                @Override
+                public void keyTyped(KeyEvent e) {
+                }
+            }
+        );
     }
     
     
@@ -103,6 +162,31 @@ public class CodePanel extends ContentPanel{
     
     
     //**************************************************************************
+    // Data function
+    //**************************************************************************
+    /**
+     * Update display of number of lines. 
+     * @return int number of line in the HTextArea
+     */
+    private int updateNbLines(){
+        int nbLines = this.text.getLineCount();
+        this.l_nbLines.setText(String.valueOf(nbLines));
+        this.repaint();
+        return nbLines;
+    }
+    
+    /**
+     * Update display number of char in text area
+     * @return int number of char in the HTextArea
+     */
+    private int updateNbChar(){
+        int nb = this.text.getText().length();
+        this.l_nbChar.setText(String.valueOf(nb));
+        return nb;
+    }
+    
+    
+    //**************************************************************************
     // Getters - Setters
     //**************************************************************************
     /**
@@ -113,6 +197,8 @@ public class CodePanel extends ContentPanel{
     public boolean setText(String pStr){
         if(pStr != null){
             this.text.setText(pStr);
+        this.updateNbChar();
+        this.updateNbLines();
             return true;
         }
         return false;

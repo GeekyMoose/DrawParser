@@ -6,7 +6,9 @@ package com.app.view;
 
 import com.app.data.AppController;
 import com.exceptions.AppError;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import javax.swing.BorderFactory;
 
 
 
@@ -31,6 +33,7 @@ public class DrawPanel extends ContentPanel{
     //**************************************************************************
     public DrawPanel(Application pParent, AppController pController) throws AppError{
         super(pParent, pController);
+        this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.BLACK));
         this.initComponents();
     }
     

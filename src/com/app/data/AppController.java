@@ -11,6 +11,7 @@ import com.exceptions.ExecError;
 import com.exceptions.ForbiddenAction;
 import com.exceptions.ParserException;
 import com.main.DebugTrack;
+import java.awt.Dimension;
 import java.io.File;
 import javax.swing.JFileChooser;
 
@@ -62,7 +63,7 @@ public class AppController implements Constants{
     public void loadFile() throws ForbiddenAction{
         String          txt     = new String();
         JFileChooser    chooser = new JFileChooser();
-        chooser.setPreferredSize (new java.awt.Dimension (500, 300));
+        chooser.setPreferredSize (new Dimension (500, 300));
         int             choice  = chooser.showOpenDialog(null);
         if (choice == JFileChooser.APPROVE_OPTION) {
             File    selection   = chooser.getSelectedFile();

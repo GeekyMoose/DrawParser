@@ -7,9 +7,8 @@ package com.app.view;
 import com.app.data.AppController;
 import com.exceptions.AppError;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -26,7 +25,7 @@ public class Application extends JFrame{
     //**************************************************************************
     // Constants - Variables
     //**************************************************************************
-    public static final Dimension   DIM_DEFAULT   = new Dimension(1000, 700);
+    public static final Dimension   DIM_DEFAULT   = new Dimension(1250, 600);
     public static final Dimension   DIM_MIN       = new Dimension(300, 300);
     public static final Dimension   DIM_MAX       = new Dimension(1500, 1000);
     private     AppController       controller;
@@ -38,6 +37,7 @@ public class Application extends JFrame{
     private     InstructionsPanel   instructionsPanel;
     
     private     JPanel              wrap_dataPanel;
+    private     JPanel              wrap_center;
     
 
     //**************************************************************************
@@ -71,23 +71,26 @@ public class Application extends JFrame{
         this.codePanel          = new CodePanel(this, this.controller);
         this.consolPanel        = new ConsolPanel(this, this.controller);
         this.instructionsPanel  = new InstructionsPanel(this, this.controller);
+        
         this.wrap_dataPanel     = new JPanel();
+        this.wrap_center        = new JPanel();
         
-        this.wrap_dataPanel.setLayout(new GridLayout(2,1));
-        this.wrap_dataPanel.add(this.codePanel);
-        this.wrap_dataPanel.add(this.consolPanel);
+        this.wrap_dataPanel     .setLayout(new BorderLayout());
+        this.wrap_center        .setLayout(new BorderLayout());
         
-        this.headBar.setBackground(Color.red);
-        this.codePanel.setBackground(Color.BLUE);
-        this.consolPanel.setBackground(Color.CYAN);
-        this.drawPanel.setBackground(Color.DARK_GRAY);
+        this.wrap_dataPanel     .setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        this.wrap_center        .setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        
+        this.wrap_dataPanel     .add(this.codePanel, BorderLayout.CENTER);
+        this.wrap_dataPanel     .add(this.consolPanel, BorderLayout.SOUTH);
+        this.wrap_center        .add(this.drawPanel, BorderLayout.CENTER);
+        this.wrap_center        .add(this.instructionsPanel, BorderLayout.EAST);
         
         
         this.setLayout(new BorderLayout());
         this.add(this.headBar, BorderLayout.NORTH);
-        this.add(this.drawPanel, BorderLayout.CENTER);
+        this.add(this.wrap_center, BorderLayout.CENTER);
         this.add(this.wrap_dataPanel, BorderLayout.WEST);
-        this.add(this.instructionsPanel, BorderLayout.EAST);
     }
     
     
