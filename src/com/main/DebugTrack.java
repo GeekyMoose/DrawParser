@@ -4,7 +4,7 @@
  */
 package com.main;
 
-import com.parser.Token;
+import com.parser.asset.Token;
 
 
 

@@ -2,7 +2,7 @@
  * Creation : May 8, 2015
  * Project Computer Science L2 Semester 4 - DrawParser
  */
-package com.parser;
+package com.parser.asset;
 
 import com.exceptions.ForbiddenAction;
 
@@ -31,6 +31,7 @@ class IntExp extends Expression {
 	}
 }
 
+
 class Var extends Expression {
 	private String name;
 	public Var(String s) {
@@ -41,6 +42,7 @@ class Var extends Expression {
 		return env.getValue(this.name);
 	}
 }
+
 
 class Sum extends Expression {
 	private Expression left, right;
@@ -54,6 +56,7 @@ class Sum extends Expression {
 	}
 }
 
+
 class Difference extends Expression {
 	private Expression left, right;
 	public Difference(Expression l, Expression r) {
@@ -66,6 +69,7 @@ class Difference extends Expression {
 	}
 }
 
+
 class Product extends Expression {
 	private Expression left, right;
 	public Product(Expression l, Expression r) {
@@ -77,6 +81,7 @@ class Product extends Expression {
 		return left.eval(env) * right.eval(env);
 	}
 }
+
 
 class Division extends Expression {
 	private Expression left, right;

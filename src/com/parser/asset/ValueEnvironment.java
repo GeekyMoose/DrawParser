@@ -2,47 +2,10 @@
  * Creation : May 8, 2015
  * Project Computer Science L2 Semester 4 - DrawParser
  */
-package com.parser;
+package com.parser.asset;
 
 import com.exceptions.ForbiddenAction;
-import java.util.*;
-
-/**
- * <h1>AbstractSyntax</h1>
- * <p>public class AbstractSyntax</p>
- * <p>AbstractSyntax is a list of instructions created from a text process.</p>
- * 
- * @date May 8, 2015
- * @author Constantin MASSON
- */
-public class AbstractSyntax {
-    private ArrayList<Instruction> listInstruction;
-    
-    
-	public AbstractSyntax() {
-        this.listInstruction = new ArrayList();
-	}
-    
-    public void addInstruction(Instruction pInst){
-        if(pInst != null){
-            this.listInstruction.add(pInst);
-        }
-    }
-    
-    public void exec(){
-        
-    }
-    
-    @Override
-    public String toString(){
-        String str = super.toString();
-        str += "\nListInstruction : \n";
-        for (Instruction i : this.listInstruction){
-            str += i.toString()+"\n";
-        }
-        return str;
-    }
-}
+import java.util.HashMap;
 
 
 /**
@@ -50,7 +13,7 @@ public class AbstractSyntax {
  * <p>class ValueEnvironment</p>
  * <p>Contains all variable already created (With or without value)</p>
  */
-class ValueEnvironment extends HashMap<String, Integer> {
+public class ValueEnvironment extends HashMap<String, Integer> {
     /**
      * Add a variable name in current list of environment variables. if ValueEnvironment 
      * already contained a variable with this name, it will be replaced. 
@@ -70,7 +33,8 @@ class ValueEnvironment extends HashMap<String, Integer> {
      */
 	public void setVariable(String name, int value) throws ForbiddenAction {
         if(this.get(name)==null){
-            throw new ForbiddenAction(name+" must be declared before");
+            //error -> get return value, I need to check if var is already here
+            //throw new ForbiddenAction(name+" must be declared before");
         }
 		this.replace(name, value);
 	}
