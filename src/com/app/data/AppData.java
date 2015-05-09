@@ -1,21 +1,20 @@
 /*
- * Creation:    May 8, 2015
+ * Creation:    May 9, 2015
  * Project Computer Science L2 Semester 4 - DrawParser
  */
-package com.app;
 
-import javax.swing.JFrame;
+package com.app.data;
 
 
 
 /**
- * <h1>Application</h1>
- * <p>public class Application</p>
+ * <h1>AppData</h1>
+ * <p>public class AppData</p>
  *
- * @date    May 8, 2015
+ * @date    May 9, 2015
  * @author  Constantin MASSON
  */
-public class Application extends JFrame implements Constants{
+public class AppData {
     //**************************************************************************
     // Constants - Variables
     //**************************************************************************
@@ -28,13 +27,8 @@ public class Application extends JFrame implements Constants{
     //**************************************************************************
     // Constructor - Initialization
     //**************************************************************************
-    /**
-     * Create a new displayable Application
-     */
-    public Application(){
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(true);
-        this.setPreferredSize(DIM_GENERAL);
+    public AppData(){
+    
     }
     
     
