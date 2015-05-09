@@ -78,12 +78,13 @@ public class Parser {
      * 
      * @param pMode     reading mode for this parsing
      * @param pFile     File to process
+     * @return AbstractSyntax created
      * @throws ParserException  thrown if text given is not valid
      * @throws ForbiddenAction  thrown whether no grammar set
      * @throws ExecError        thrown if unable to load file (Wrong path etc)
      * @throws AppError         thrown if critical program error
      */
-    public void startParser(int pMode, File pFile) 
+    public AbstractSyntax startParser(int pMode, File pFile) 
     throws ForbiddenAction, ParserException, ExecError, AppError{
         if(this.grammar == null){
             throw new ForbiddenAction("Parser has not grammar! Add a grammar before!");
@@ -95,11 +96,9 @@ public class Parser {
             
             switch(pMode){
                 case Parser.MODE_GENERAL:
-                    this.grammar.processGeneralMode(look);
-                    break;
+                    return this.grammar.processGeneralMode(look);
                 case Parser.MODE_INTERPRETER:
-                    this.grammar.processInterpreterMode(look);
-                    break;
+                    return this.grammar.processInterpreterMode(look);
                 default:
                     throw new ExecError("Unkow parsing mode");
             }

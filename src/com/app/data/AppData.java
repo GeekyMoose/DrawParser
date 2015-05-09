@@ -9,6 +9,7 @@ import com.exceptions.AppError;
 import com.exceptions.ExecError;
 import com.exceptions.ForbiddenAction;
 import com.exceptions.ParserException;
+import com.parser.AbstractSyntax;
 import com.parser.Grammar;
 import com.parser.Grammar1;
 import com.parser.Parser;
@@ -55,7 +56,8 @@ public class AppData {
      * @throws AppError         thrown if critical program error
      */
     public void runParser(File pFile) throws ForbiddenAction, ParserException, AppError, ExecError{
-        this.parser.startParser(Parser.MODE_GENERAL, pFile);
+        AbstractSyntax abs = this.parser.startParser(Parser.MODE_GENERAL, pFile);
+        System.out.println("DEBUG in AppData : "+abs.toString());
     }
     
     

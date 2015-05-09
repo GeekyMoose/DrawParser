@@ -48,6 +48,7 @@ class Sum extends Expression {
 		this.left = l;
 		this.right = r;
 	}
+    @Override
 	public int eval(ValueEnvironment env) throws ForbiddenAction{
 		return this.left.eval(env) + this.right.eval(env);
 	}
@@ -59,6 +60,7 @@ class Difference extends Expression {
 		left = l;
 		right = r;
 	}
+    @Override
 	public int eval(ValueEnvironment env) throws ForbiddenAction{
 		return left.eval(env) - right.eval(env);
 	}
@@ -70,6 +72,7 @@ class Product extends Expression {
 		left = l;
 		right = r;
 	}
+    @Override
 	public int eval(ValueEnvironment env) throws ForbiddenAction{
 		return left.eval(env) * right.eval(env);
 	}
@@ -81,7 +84,12 @@ class Division extends Expression {
 		left = l;
 		right = r;
 	}
+    @Override
 	public int eval(ValueEnvironment env) throws ForbiddenAction{
-		return left.eval(env) / right.eval(env);
+        int rightEval = right.eval(env);
+        if(rightEval == 0){
+            throw new ForbiddenAction("Divide by 0");
+        }
+		return left.eval(env) / rightEval;
 	}
 }

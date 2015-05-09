@@ -15,7 +15,7 @@ import java.util.*;
  * @date May 8, 2015
  * @author Constantin MASSON
  */
-class AbstractSyntax {
+public class AbstractSyntax {
     private ArrayList<Instruction> listInstruction;
     
     
@@ -31,6 +31,16 @@ class AbstractSyntax {
     
     public void exec(){
         
+    }
+    
+    @Override
+    public String toString(){
+        String str = super.toString();
+        str += "\nListInstruction : \n";
+        for (Instruction i : this.listInstruction){
+            str += i.toString()+"\n";
+        }
+        return str;
     }
 }
 
