@@ -35,12 +35,12 @@ public class Main {
                     AppController   controller  = new AppController(model);
                     Application     app         = new Application(controller);
                     controller.setView(app);
-                    
                     app.pack();
                     app.setLocationRelativeTo(null);
                     app.setVisible(true);
                 } catch(AppError ex) {
                     DebugTrack.showErrMsg("Unable to start program!");
+                    UiDialog.showError("Error", "Unable to load program!");
                 }
             }
         });

@@ -43,5 +43,5 @@ prog{
     }
     else {
         move 42;
-    }dwad = 2;
+    }
 }
