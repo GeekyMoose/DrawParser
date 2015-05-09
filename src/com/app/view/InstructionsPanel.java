@@ -5,10 +5,14 @@
 package com.app.view;
 
 import com.app.data.AppController;
+import com.app.data.Constants;
 import com.exceptions.AppError;
-import java.awt.Dimension;
+import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import javax.swing.JPanel;
 
 
 
@@ -22,13 +26,11 @@ import java.awt.Graphics;
  * 
  * @author Constantin MASSON
  */
-public class InstructionsPanel extends ContentPanel{
+public class InstructionsPanel extends ContentPanel implements Constants{
     //**************************************************************************
     // Constants - Variables
     //**************************************************************************
-    private static final Dimension  MIN_DIM  = new Dimension(100,Application.DIM_MIN.height);
-    private static final Dimension  MAX_DIM  = new Dimension(500,Application.DIM_MIN.height);
-    private static final int        PERCENT = 100;
+    private ArrayList<ActionPanel>  listActions;
     
     
     //**************************************************************************
@@ -36,26 +38,58 @@ public class InstructionsPanel extends ContentPanel{
     //**************************************************************************
     public InstructionsPanel(Application pParent, AppController pController) throws AppError{
         super(pParent, pController);
+        this.listActions = new ArrayList();
         this.initComponents();
     }
     
     private void initComponents(){
         this.setLayout(new FlowLayout());
-        this.setMinimumSize(MIN_DIM);
-        this.setMaximumSize(MAX_DIM);
-        this.setPreferredSize(new Dimension(150, this.parent.getPreferredSize().height));
+        this.setPreferredSize(DIM_INST_PANEL);
     }
+}
+
+
+/**
+ * <h1>ActionPanel</h1>
+ * <p>
+ * class ActionPanel<br/>
+ * extends JPanel
+ * </p>
+ * <p>Display an action generated from file</p>
+ * 
+ * @date    May 9, 2015
+ * @author  Constantin MASSON
+ */
+class ActionPanel extends JPanel implements MouseListener{
+    private final Color     color_hover     = Color.LIGHT_GRAY;
+    private final Color     color_default   = Color.GRAY;
+    private final Color     color_selected  = Color.CYAN;
+    private final Color     color_valid     = Color.GREEN;
+    private final Color     color_other     = Color.DARK_GRAY;
     
     
-    //**************************************************************************
-    // Constructor - Initialization
-    //**************************************************************************
+    public ActionPanel(){
+        this.setPreferredSize(Constants.DIM_ACTION_PANEL);
+    }
+
     @Override
-    public void paintComponent(Graphics g){
-        int width   = (this.parent.getSize().width / 100)* PERCENT;
-        int height  = (this.parent.getSize().height /100) * PERCENT;
-        //this.setPreferredSize(new Dimension(width, height));
-        this.setSize(new Dimension(width, height));
-        super.paintComponent(g);
+    public void mouseClicked(MouseEvent e){
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e){
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e){
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e){
+        this.setBackground(Color.DARK_GRAY);
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e){
     }
 }

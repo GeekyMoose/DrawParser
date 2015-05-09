@@ -4,10 +4,15 @@
  */
 package com.parser;
 
+import com.exceptions.ForbiddenAction;
 import java.util.*;
 
 /**
+ * <h1>AbstractSyntax</h1>
+ * <p>public class AbstractSyntax</p>
+ * <p>AbstractSyntax is a list of instructions created from a text process.</p>
  * 
+ * @date May 8, 2015
  * @author Constantin MASSON
  */
 class AbstractSyntax {
@@ -22,6 +27,10 @@ class AbstractSyntax {
         if(pInst != null){
             this.listInstruction.add(pInst);
         }
+    }
+    
+    public void exec(){
+        
     }
 }
 
@@ -43,21 +52,30 @@ class ValueEnvironment extends HashMap<String, Integer> {
 	}
 
     /**
-     * Set value of an existing variable
-     * @param name
-     * @param value
-     * @throws Exception 
+     * Set value of an existing variable, if this variable doesn't exists, throw 
+     * an exception
+     * @param name  variable to set
+     * @param value value to set in this variables
+     * @throws ForbiddenAction thrown if variable doesn't exists
      */
-	public void setVariable(String name, int value) {
+	public void setVariable(String name, int value) throws ForbiddenAction {
+        if(this.get(name)==null){
+            throw new ForbiddenAction(name+" must be declared before");
+        }
 		this.replace(name, value);
 	}
     
     /**
      * Return value of variable given in parameter. 
-     * @param name
-     * @return 
+     * @param name variable name
+     * @return value of this variables if exists, otherwise, throws exception
+     * @throws ForbiddenAction thrown if variables doesn't exists
      */
-	public int getValue(String name) {
+	public int getValue(String name) throws ForbiddenAction {
+        Integer value = this.get(name);
+        if(value == null){
+            throw new ForbiddenAction(name+" must be declared before");
+        }
 		return this.get(name);
 	}
 }
