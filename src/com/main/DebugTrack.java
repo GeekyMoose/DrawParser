@@ -2,7 +2,6 @@
  * Creation:    May 8, 2015
  * Project Computer Science L2 Semester 4 - DrawParser
  */
-
 package com.main;
 
 import com.parser.Token;
@@ -40,6 +39,20 @@ public abstract class DebugTrack {
             System.out.println(pToken.toString());
         } else{
             System.out.println(" *** Debug in '"+DebugTrack.getfctName()+" : "+pToken.toString());
+        }
+    }
+    
+    /**
+     * Display a message for tmp debug. Display which function called the track 
+     * and show data
+     * @param str 
+     */
+    public static void showDebugMsg(String str){
+        if(debug_mode == false){return;}
+        else if (debug_mode_brief == true){
+            System.out.println(" *** "+str);
+        } else{
+            System.out.println(" *** Debug in '"+DebugTrack.getfctName()+"' -> "+str);
         }
     }
     

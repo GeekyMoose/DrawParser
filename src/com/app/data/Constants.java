@@ -19,4 +19,5 @@ public interface Constants {
     public static final Dimension DIM_GENERAL       = new Dimension(500, 250);
     
     
+    public static final String  DEFAULT_TMP_FILE    = "tmp.txt";
 }

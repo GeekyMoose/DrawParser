@@ -20,14 +20,14 @@ import javax.swing.JTextField;
 /**
  * <h1>ConsolPanel</h1>
  * <p>
- * class ConsolPanel<br/>
+ * public class ConsolPanel<br/>
  * extends ContentPanel
  * </p>
  * <p>ConsolPanel display a consol</p>
  * 
  * @author Constantin MASSON
  */
-class ConsolPanel extends ContentPanel{
+public class ConsolPanel extends ContentPanel{
     //**************************************************************************
     // Constants and variables
     //**************************************************************************
@@ -41,9 +41,15 @@ class ConsolPanel extends ContentPanel{
     //**************************************************************************
     // Constructor - Initialization
     //**************************************************************************
+    /**
+     * Create a new ConsolPanel
+     * @param pParent       Application used 
+     * @param pController   Controller Application
+     * @throws AppError thrown if Application or controller null
+     */
     public ConsolPanel(Application pParent, AppController pController) throws AppError{
         super(pParent, pController);
-        this.setPreferredSize(new Dimension(300, 0));
+        this.setPreferredSize(new Dimension(300, 200));
         this.initComponents();
         this.setActionCommand();
     }
@@ -66,6 +72,9 @@ class ConsolPanel extends ContentPanel{
         this                .add(this.wrapper);
     }
     
+    /**
+     * Set action when tape in the command JTextField
+     */
     private void setActionCommand(){
         this.command.addKeyListener(
             new KeyListener() {

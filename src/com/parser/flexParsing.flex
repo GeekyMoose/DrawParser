@@ -1,5 +1,5 @@
 package com.parser;
-import com.asset.LexerException;
+import com.exceptions.LexerException;
 
 %%
 %public
@@ -42,7 +42,8 @@ import com.asset.LexerException;
 
 
 
-blank               = "\n" | "\r" | " " | "\t"
+blank               = " " | "\t"
+line                = "\r\n" | "\n\r" | "\n" | "\r"
 
 
 prog                = "prog"
@@ -109,6 +110,7 @@ down                = "down" | "Down" | "DOWN"
 
 
     {blank}         {}
+    {line}          {}
     <<EOF>>         {return getToken(Sym.EOF);}
     [^]             {throw new LexerException(yytext(), yyline+1, yycolumn+1);}
 }

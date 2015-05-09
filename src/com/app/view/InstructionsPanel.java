@@ -15,14 +15,14 @@ import java.awt.Graphics;
 /**
  * <h1>InstructionsPanel</h1>
  * <p>
- * class InstructionsPanel<br/>
+ * public class InstructionsPanel<br/>
  * extends ContentPanel
  * </p>
  * <p>InstructionsPanel display all action created for this text</p>
  * 
  * @author Constantin MASSON
  */
-class InstructionsPanel extends ContentPanel{
+public class InstructionsPanel extends ContentPanel{
     //**************************************************************************
     // Constants - Variables
     //**************************************************************************

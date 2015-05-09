@@ -26,14 +26,14 @@ public class Application extends JFrame{
     //**************************************************************************
     // Constants - Variables
     //**************************************************************************
-    public static final Dimension DIM_DEFAULT   = new Dimension(1000, 700);
-    public static final Dimension DIM_MIN       = new Dimension(300, 300);
-    public static final Dimension DIM_MAX       = new Dimension(1500, 1000);
+    public static final Dimension   DIM_DEFAULT   = new Dimension(1000, 700);
+    public static final Dimension   DIM_MIN       = new Dimension(300, 300);
+    public static final Dimension   DIM_MAX       = new Dimension(1500, 1000);
     private     AppController       controller;
     
     private     HeadBar             headBar;
     private     DrawPanel           drawPanel;
-    private     TextPanel           textPanel;
+    private     CodePanel           codePanel;
     private     ConsolPanel         consolPanel;
     private     InstructionsPanel   instructionsPanel;
     
@@ -68,17 +68,17 @@ public class Application extends JFrame{
     private void initComponents() throws AppError{
         this.headBar            = new HeadBar(this, this.controller);
         this.drawPanel          = new DrawPanel(this, this.controller);
-        this.textPanel          = new TextPanel(this, this.controller);
+        this.codePanel          = new CodePanel(this, this.controller);
         this.consolPanel        = new ConsolPanel(this, this.controller);
         this.instructionsPanel  = new InstructionsPanel(this, this.controller);
         this.wrap_dataPanel     = new JPanel();
         
         this.wrap_dataPanel.setLayout(new GridLayout(2,1));
-        this.wrap_dataPanel.add(this.textPanel);
+        this.wrap_dataPanel.add(this.codePanel);
         this.wrap_dataPanel.add(this.consolPanel);
         
         this.headBar.setBackground(Color.red);
-        this.textPanel.setBackground(Color.BLUE);
+        this.codePanel.setBackground(Color.BLUE);
         this.consolPanel.setBackground(Color.CYAN);
         this.drawPanel.setBackground(Color.DARK_GRAY);
         
@@ -107,4 +107,11 @@ public class Application extends JFrame{
     //**************************************************************************
     // Getters - Setters
     //**************************************************************************
+    /**
+     * Return application textPanel
+     * @return CodePanel
+     */
+    public CodePanel getCodePanel(){
+        return this.codePanel;
+    }
 }

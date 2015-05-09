@@ -5,6 +5,7 @@
 package com.parser;
 
 import com.exceptions.AppError;
+import com.exceptions.ExecError;
 import com.exceptions.ForbiddenAction;
 import com.exceptions.ParserException;
 import java.io.*;
@@ -38,11 +39,11 @@ public class Parser {
     // Constructors - Initialization
     //**************************************************************************
     /**
-     * Create a new Parser with specific grammar. Grammar can be changed later.
+     * Create a new Parser with specific grammar. Grammar can be changed later. 
+     * If null given, parser if created without grammar
      * @param pGrammar grammar to set with this parser
-     * @throws AppError thrown if grammar is invalid (null)
      */
-    public Parser(Grammar pGrammar) throws AppError {
+    public Parser(Grammar pGrammar) {
         this.setGrammar(pGrammar);
     }
     
@@ -52,21 +53,42 @@ public class Parser {
     //**************************************************************************
     /**
      * 
-     * Start to process a text using parser grammar. Text is process from a 
-     * Lexer class (Created in this function). LookAhead1 is the current 
-     * position in Lexer. (Lexer is a generated class by JFlex). 
+     * Start to process a text using parser grammar. Text is recovered from a 
+     * file given as parameter. Mode set the behavior of processing. 
      * Throws exception if bad mode given
      * 
      * @param pMode     reading mode for this parsing
      * @param pFilePath path of the file (if file is hi.txt -> path/file/hi.txt)
-     * @throws ParserException thrown if text given is not valid
-     * @throws ForbiddenAction thrown if unable to load file
-     * @throws AppError thrown if critical program error
+     * @throws ParserException  thrown if text given is not valid
+     * @throws ForbiddenAction  thrown whether no grammar set
+     * @throws ExecError        thrown if unable to load file (Wrong path etc)
+     * @throws AppError         thrown if critical program error
      */
-    public void startParser(int pMode, String pFilePath) throws ForbiddenAction, ParserException, AppError{
+    public void startParser(int pMode, String pFilePath) 
+    throws ForbiddenAction, ParserException, AppError, ExecError{
+        File input = new File(pFilePath);
+        this.startParser(pMode, input);
+    }
+    
+    /**
+     * 
+     * Start to process a text using parser grammar. Text is recovered from a 
+     * file given as parameter. Mode set the behavior of processing. 
+     * Throws exception if bad mode given
+     * 
+     * @param pMode     reading mode for this parsing
+     * @param pFile     File to process
+     * @throws ParserException  thrown if text given is not valid
+     * @throws ForbiddenAction  thrown whether no grammar set
+     * @throws ExecError        thrown if unable to load file (Wrong path etc)
+     * @throws AppError         thrown if critical program error
+     */
+    public void startParser(int pMode, File pFile) throws ForbiddenAction, ParserException, ExecError, AppError{
+        if(this.grammar == null){
+            throw new ForbiddenAction("Parser has not grammar! Add a grammar before!");
+        }
         try{
-            File        input   = new File(pFilePath);
-            Reader      r       = new FileReader(input);
+            Reader      r       = new FileReader(pFile);
             Lexer       lexer   = new Lexer(r);
             LookAhead1  look    = new LookAhead1(lexer);
             
@@ -78,11 +100,11 @@ public class Parser {
                     this.grammar.processInterpreterMode(look);
                     break;
                 default:
-                    throw new AppError("Unkow parsing mode");
+                    throw new ExecError("Unkow parsing mode");
             }
         }
         catch(FileNotFoundException ex){
-            throw new ForbiddenAction("Unable to load file "+pFilePath
+            throw new ExecError("Unable to load file "+pFile.getPath()
                                       +"\nError message : "+ex.getMessage());
         }
     }
@@ -101,14 +123,10 @@ public class Parser {
     
     /**
      * Set current parser grammar to a new grammar. If grammar given is null, 
-     * throw an Exception
+     * parser has no longer a grammar
      * @param pGrammar 
-     * @throws AppError Exception thrown if grammar given is null
      */
-    public void setGrammar(Grammar pGrammar) throws AppError{
-        if(pGrammar == null){
-            throw new AppError("Grammar mustn't be null");
-        }
+    public void setGrammar(Grammar pGrammar){
         this.grammar = pGrammar;
     }
 }

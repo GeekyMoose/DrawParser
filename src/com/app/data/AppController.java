@@ -7,6 +7,12 @@ package com.app.data;
 
 import com.app.view.Application;
 import com.exceptions.AppError;
+import com.exceptions.ExecError;
+import com.exceptions.ForbiddenAction;
+import com.exceptions.ParserException;
+import com.main.DebugTrack;
+import java.io.File;
+import javax.swing.JFileChooser;
 
 
 
@@ -17,7 +23,7 @@ import com.exceptions.AppError;
  * @date    May 9, 2015
  * @author  Constantin MASSON
  */
-public class AppController {
+public class AppController implements Constants{
     //**************************************************************************
     // Constants - Variables
     //**************************************************************************
@@ -44,6 +50,44 @@ public class AppController {
 
     //**************************************************************************
     // Functions
+    //**************************************************************************
+    public void setTextPanelText(String pStr){
+        this.view.getCodePanel().setText(pStr);
+    }
+    
+    /**
+     * Load a file using JFileChooser. If not valid, throw exception
+     * @throws ForbiddenAction thrown if unable to load file
+     */
+    public void loadFile() throws ForbiddenAction{
+        String          txt     = new String();
+        JFileChooser    chooser = new JFileChooser();
+        chooser.setPreferredSize (new java.awt.Dimension (500, 300));
+        int             choice  = chooser.showOpenDialog(null);
+        if (choice == JFileChooser.APPROVE_OPTION) {
+            File    selection   = chooser.getSelectedFile();
+            String  str         = Asset.getStrFromFile(selection);
+            this.view.getCodePanel().setText(str);
+        }
+    }
+    
+    /**
+     * Run the parser on current code in CodeArea. It will previously create a 
+     * file with current CodeArea content 
+     * @throws ParserException  thrown if text given is not valid
+     * @throws ForbiddenAction  thrown whether no grammar set
+     * @throws ExecError        thrown if unable to load file (Wrong path etc)
+     * @throws AppError         thrown if critical program error
+     */
+    public void runCodePanelParser() throws ExecError, ForbiddenAction, ParserException, AppError{
+        File f = this.view.getCodePanel().createFile(DEFAULT_TMP_FILE);
+        DebugTrack.showDebugMsg("Tmp file created : "+f.getAbsolutePath());
+        this.model.runParser(f);
+    }
+    
+
+    //**************************************************************************
+    // Getters - Setters
     //**************************************************************************
     /**
      * Set Application view for this controller. If null given, do nothing
