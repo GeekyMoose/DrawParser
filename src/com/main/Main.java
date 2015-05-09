@@ -5,8 +5,13 @@
 
 package com.main;
 
-import com.app.Application;
+import com.app.data.AppController;
+import com.app.data.AppData;
+import com.app.view.Application;
+import com.exceptions.AppError;
 import java.awt.EventQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 
@@ -28,10 +33,16 @@ public class Main {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                Application ap = new Application();
-                ap.pack();
-                ap.setLocationRelativeTo(null);
-                ap.setVisible(true);
+                try {
+                    AppData         model       = new AppData();
+                    AppController   controller  = new AppController(model);
+                    Application     app         = new Application(controller);
+                    app.pack();
+                    app.setLocationRelativeTo(null);
+                    app.setVisible(true);
+                } catch(AppError ex) {
+                    DebugTrack.showErrMsg("Unable to start program!");
+                }
             }
         });
     }

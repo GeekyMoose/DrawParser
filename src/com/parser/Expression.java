@@ -23,6 +23,7 @@ class IntExp extends Expression {
 	public IntExp(int i) {
 		this.value = i;
 	}
+    @Override
 	public int eval(ValueEnvironment env) throws Exception{
 		return this.value;
 	}
@@ -33,6 +34,7 @@ class Var extends Expression {
 	public Var(String s) {
 		this.name = s;
 	}
+    @Override
 	public int eval(ValueEnvironment env) throws Exception{
 		return env.getValue(this.name);
 	}

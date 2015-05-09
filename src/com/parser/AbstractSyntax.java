@@ -18,16 +18,11 @@ class AbstractSyntax {
         this.listInstruction = new ArrayList();
 	}
     
-	public void run(ValueEnvironment env) throws Exception {
-		if (first != null) {
-			first.exec(env);
-			if(rest != null){
-				rest.run(env);
-			}
-		}
-	} 
-    
-    
+    public void addInstruction(Instruction pInst){
+        if(pInst != null){
+            this.listInstruction.add(pInst);
+        }
+    }
 }
 
 
@@ -48,7 +43,7 @@ class ValueEnvironment extends HashMap<String, Integer> {
 	}
 
     /**
-     * 
+     * Set value of an existing variable
      * @param name
      * @param value
      * @throws Exception 
@@ -56,7 +51,12 @@ class ValueEnvironment extends HashMap<String, Integer> {
 	public void setVariable(String name, int value) {
 		this.replace(name, value);
 	}
-
+    
+    /**
+     * Return value of variable given in parameter. 
+     * @param name
+     * @return 
+     */
 	public int getValue(String name) {
 		return this.get(name);
 	}
