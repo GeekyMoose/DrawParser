@@ -30,41 +30,39 @@ public abstract class Grammar{
     
     
     //**************************************************************************
-    // Constroctor - Initialization
-    //**************************************************************************
-	public Grammar(){
-		//Nothing, reader will be set later (When start)
-	}
-    
-    
-    //**************************************************************************
     // Functions
     //**************************************************************************
     /**
      * Process grammar with general mode
      * LookAhead1 is the current position in Lexer.
      * @param pLook reader for file to process
+     * @return AbstractSyntax created
      * @throws AppError thrown if critical error during processing (Bad file etc)
      * @throws ParserException thrown if text is not valid
      */
-    public void processGeneralMode(LookAhead1 pLook) throws AppError, ParserException{
+    public AbstractSyntax processGeneralMode(LookAhead1 pLook) throws AppError, ParserException{
         if(pLook == null){
             throw new AppError("LookAhead1 mustn't be null");
         }
-        this.reader = pLook;
+        this.reader         = pLook;
+        AbstractSyntax abs  = new AbstractSyntax();
+        return abs;
     }
     
     /**
      * Process grammar with interpreter mode
      * @param pLook reader for file to process
+     * @return AbstractSyntax created
      * @throws AppError thrown if critical error during processing (Bad file etc)
      * @throws ParserException thrown if text is not valid
      */
-    public void processInterpreterMode(LookAhead1 pLook) throws AppError, ParserException{
+    public AbstractSyntax processInterpreterMode(LookAhead1 pLook) throws AppError, ParserException{
         if(pLook == null){
             throw new AppError("LookAhead1 mustn't be null");
         }
-        this.reader = pLook;
+        this.reader         = pLook;
+        AbstractSyntax abs  = new AbstractSyntax();
+        return abs;
     }
     
     /**

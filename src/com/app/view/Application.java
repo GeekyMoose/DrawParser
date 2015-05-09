@@ -26,7 +26,7 @@ public class Application extends JFrame{
     // Constants - Variables
     //**************************************************************************
     public static final Dimension   DIM_DEFAULT   = new Dimension(1250, 600);
-    public static final Dimension   DIM_MIN       = new Dimension(300, 300);
+    public static final Dimension   DIM_MIN       = new Dimension(700, 500);
     public static final Dimension   DIM_MAX       = new Dimension(1500, 1000);
     private     AppController       controller;
     

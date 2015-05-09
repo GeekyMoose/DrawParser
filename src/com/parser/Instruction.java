@@ -5,6 +5,7 @@
 package com.parser;
 
 import com.exceptions.ForbiddenAction;
+import java.util.ArrayList;
 
 
 
@@ -21,7 +22,9 @@ abstract class Instruction {
 }
 
 
-
+//******************************************************************************
+// Porgram Instruction
+//******************************************************************************
 /**
  * Declare a new variable
  * @author Constantin MASSON
@@ -55,7 +58,101 @@ class Assignment extends Instruction {
 	}
 }
 
+/**
+ * else if Instruction. Can have only if, if else or if - else if * x  - else 
+ * @author Constantin MASSON
+ */
+class IfInstruction extends Instruction{
+    private AbstractSyntax  abs;
+    private Expression      exp1;
+    private Expression      exp2;
+    private Instruction     elseInst;
+    private ArrayList<ElifInstruction> listElif;
+    public IfInstruction(Expression pExp1, Expression pExp2, AbstractSyntax pAbs){
+        this.abs            = pAbs;
+        this.exp1           = pExp1;
+        this.exp2           = pExp2;
+        this.listElif       = new ArrayList();
+        this.elseInst       = null;
+    }
+    @Override
+    void exec(ValueEnvironment env){
+        if(exp1 == exp2){
+            
+        }
+    }
+    public void addElifInstruction(ElifInstruction pInst){
+        this.listElif.add(pInst);
+    }
+    public void addElseInstruction(ElseInstruction pInst){
+        this.elseInst = pInst;
+    }
+}
 
+class ElifInstruction extends Instruction{
+    private AbstractSyntax  abs;
+    private Expression      exp1;
+    private Expression      exp2;
+    public ElifInstruction(Expression pExp1, Expression pExp2, AbstractSyntax pAbs){
+        this.abs            = pAbs;
+        this.exp1           = pExp1;
+        this.exp2           = pExp2;
+    }
+
+    @Override
+    void exec(ValueEnvironment env) throws ForbiddenAction{
+    
+    }
+}
+
+class ElseInstruction extends Instruction{
+    private AbstractSyntax  abs;
+    public ElseInstruction(AbstractSyntax pAbs){
+        this.abs = pAbs;
+    }
+
+    @Override
+    void exec(ValueEnvironment env) throws ForbiddenAction{
+    
+    }
+}
+
+
+class WhileInstruction extends Instruction{
+    private AbstractSyntax  abs;
+    private Expression      exp1;
+    private Expression      exp2;
+    public WhileInstruction(Expression pExp1, Expression pExp2, AbstractSyntax pAbs){
+        this.abs    = pAbs;
+        this.exp1   = pExp1;
+        this.exp2   = pExp2;
+    }
+
+    @Override
+    void exec(ValueEnvironment env) throws ForbiddenAction{
+    
+    }
+}
+
+
+class ForInstruction extends Instruction{
+    private AbstractSyntax  abs;
+    private Expression      exp1;
+    public ForInstruction(Expression pExp1, AbstractSyntax pAbs){
+        this.abs    = pAbs;
+        this.exp1   = pExp1;
+    }
+
+    @Override
+    void exec(ValueEnvironment env) throws ForbiddenAction{
+    
+    }
+}
+
+
+//******************************************************************************
+// Action Instruction
+//******************************************************************************
 /**
  * Move action
  * @author Constantin MASSON

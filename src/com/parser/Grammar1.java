@@ -23,24 +23,28 @@ public class Grammar1 extends Grammar{
     // Functions from Grammar
     //**************************************************************************
     @Override
-    public void processGeneralMode(LookAhead1 pLook) throws AppError, ParserException{
-        super.processGeneralMode(pLook);
+    public AbstractSyntax processGeneralMode(LookAhead1 pLook) throws AppError, ParserException{
+        AbstractSyntax abs  = super.processGeneralMode(pLook);
         if(this.reader.check(Sym.PROG)){
             this.reader.eat(Sym.PROG);
             this.reader.eat(Sym.L_CB);
-            this.program();
+            this.program(abs);
             this.reader.eat(Sym.R_CB);
             reader.eat(Sym.EOF);
-        } else{
+        } 
+        else{
             reader.eat(Sym.EOF);
         }
+        return abs;
     }
 
     @Override
-    public void processInterpreterMode(LookAhead1 pLook) throws AppError, ParserException{
-        super.processInterpreterMode(pLook);
-        this.program();
+    public AbstractSyntax processInterpreterMode(LookAhead1 pLook) throws AppError, ParserException{
+        AbstractSyntax abs  = super.processGeneralMode(pLook);
+        this.program(abs);
+        return abs;
     }
+    
     @Override
     public String toString(){
         return null;
@@ -50,163 +54,234 @@ public class Grammar1 extends Grammar{
     //**************************************************************************
     // Not term functions
     //**************************************************************************
-    private void program() throws AppError, ParserException{
+    /**
+     * Process a program
+     * @param abs AbstractSyntax where to add elements
+     * @throws AppError         thrown if critical error
+     * @throws ParserException  thrown if not valid expression (Text not valid)
+     */
+    private void program(AbstractSyntax abs) throws AppError, ParserException{
         if(!this.reader.check(Sym.R_CB)){
-            this.declarations();
-            this.blockInstructions();
+            this.declarations(abs);
+            this.blockInstructions(abs);
         }
     }
     
-    private void declarations() throws AppError, ParserException{
+    /**
+     * Check if there is a variable declaration. If variable, add in current 
+     * AbstractSyntax and call itself again (Recursively while variable present)
+     * @param abs AbstractSyntax where to add elements
+     * @throws AppError         thrown if critical error
+     * @throws ParserException  thrown if not valid expression (Text not valid)
+     */
+    private void declarations(AbstractSyntax abs) throws AppError, ParserException{
         if(this.reader.check(Sym.VAR_CREA)){
             this.reader.eat(Sym.VAR_CREA);
+            abs.addInstruction(new Declaration(this.reader.getStrValue()));
             this.reader.eat(Sym.VAR_NAME);
             this.reader.eat(Sym.CONCAT);
-            this.declarations();
+            this.declarations(abs);
         }
     }
     
-    private void blockInstructions() throws AppError, ParserException{
+    /**
+     * Block of instruction. All instruction are added in AbstractSyntax given 
+     * in parameter
+     * @param abs AbstractSyntax where to ad instruction
+     * @throws AppError         thrown if critical error
+     * @throws ParserException  thrown if not valid expression (Text not valid)
+     */
+    private void blockInstructions(AbstractSyntax abs) throws AppError, ParserException{
         if(this.checkNextIsInstruction()){
-            this.instructions();
-            this.blockInstructions();
+            this.instructions(abs);
+            this.blockInstructions(abs);
         }
     }
     
-    private void instructions() throws AppError, ParserException{
+    /**
+     * Check if next Token is an instruction. If is instruction, create it and 
+     * return the new instruction created
+     * @param abs AbstractSyntax where to add elements
+     * @throws AppError
+     * @throws ParserException 
+     */
+    private void instructions(AbstractSyntax abs) throws AppError, ParserException{
         if(this.reader.check(Sym.MOVE)){
             this.reader.eat(Sym.MOVE);
-            this.expressions();
+            Expression e = this.expressions();
             this.reader.eat(Sym.CONCAT);
+            abs.addInstruction(new Move(e));
         } 
         else if(this.reader.check(Sym.ROTATE)){
             this.reader.eat(Sym.ROTATE);
-            this.expressions();
+            Expression e = this.expressions();
             this.reader.eat(Sym.CONCAT);
+            abs.addInstruction(new Rotate(e));
         } 
         else if(this.reader.check(Sym.UP)){
             this.reader.eat(Sym.UP);
             this.reader.eat(Sym.CONCAT);
+            abs.addInstruction(new Up());
         } 
         else if(this.reader.check(Sym.DOWN)){
             this.reader.eat(Sym.DOWN);
             this.reader.eat(Sym.CONCAT);
+            abs.addInstruction(new Down());
         } 
         else if(this.reader.check(Sym.VAR_NAME)){
+            String varName = this.reader.getStrValue();
             this.reader.eat(Sym.VAR_NAME);
             this.reader.eat(Sym.ASSIGN);
-            this.expressions();
+            Expression e = this.expressions();
             this.reader.eat(Sym.CONCAT);
+            abs.addInstruction(new Assignment(varName, e));
         } 
         else if(this.reader.check(Sym.IF)){
-            this.ifInstruction();
+            this.ifInstruction(abs);
         } 
         else if(this.reader.check(Sym.WHILE)){
-            this.whileLoop();
+            this.whileLoop(abs);
         } 
         else if(this.reader.check(Sym.FOR)){
-            this.forLoop();
+            this.forLoop(abs);
         } 
         else{
             throw new ParserException("Instruction", this.reader.getCurrentToken());
         }
     }
     
-    private void ifInstruction() throws AppError, ParserException{
+    private void ifInstruction(AbstractSyntax abs) throws AppError, ParserException{
+        AbstractSyntax ifAbs = new AbstractSyntax();
+        //If
         this.reader.eat(Sym.IF);
         this.reader.eat(Sym.L_PAR);
-        this.expressions();
+        Expression e1 = this.expressions();
         this.reader.eat(Sym.EQ);
-        this.expressions();
+        Expression e2 = this.expressions();
         this.reader.eat(Sym.R_PAR);
         this.reader.eat(Sym.L_CB);
-        this.blockInstructions();
+        this.blockInstructions(ifAbs);
         this.reader.eat(Sym.R_CB);
+        IfInstruction ifInst = new IfInstruction(e1, e2, ifAbs);
+        
+        //Else if
         while (this.reader.check(Sym.ELIF)){
+            AbstractSyntax elifAbs = new AbstractSyntax();
             this.reader.eat(Sym.ELIF);
             this.reader.eat(Sym.L_PAR);
-            this.expressions();
+            Expression e3 = this.expressions();
             this.reader.eat(Sym.EQ);
-            this.expressions();
+            Expression e4 = this.expressions();
             this.reader.eat(Sym.R_PAR);
             this.reader.eat(Sym.L_CB);
-            this.blockInstructions();
+            this.blockInstructions(elifAbs);
             this.reader.eat(Sym.R_CB);
+            ElifInstruction elseifInst = new ElifInstruction(e3, e4, elifAbs);
+            ifInst.addElifInstruction(elseifInst);
         }
+        
+        //Else
         if(this.reader.check(Sym.ELSE)){
+            AbstractSyntax elseAbs = new AbstractSyntax();
             this.reader.eat(Sym.ELSE);
             this.reader.eat(Sym.L_CB);
-            this.blockInstructions();
+            this.blockInstructions(elseAbs);
             this.reader.eat(Sym.R_CB);
+            ElseInstruction elseInst = new ElseInstruction(elseAbs);
+            ifInst.addElseInstruction(elseInst);
         }
+        abs.addInstruction(ifInst);
     }
     
-    private void whileLoop() throws AppError, ParserException{
+    private void whileLoop(AbstractSyntax abs) throws AppError, ParserException{
+        AbstractSyntax whileAbs = new AbstractSyntax();
         this.reader.eat(Sym.WHILE);
         this.reader.eat(Sym.L_PAR);
-        this.expressions();
+        Expression e1 = this.expressions();
         this.reader.eat(Sym.EQ);
-        this.expressions();
+        Expression e2 = this.expressions();
         this.reader.eat(Sym.R_PAR);
         this.reader.eat(Sym.L_CB);
-        this.blockInstructions();
+        this.blockInstructions(whileAbs);
         this.reader.eat(Sym.R_CB);
+        WhileInstruction whileInst = new WhileInstruction(e1, e2, whileAbs);
+        abs.addInstruction(whileInst);
     }
     
-    private void forLoop() throws AppError, ParserException{
+    private void forLoop(AbstractSyntax abs) throws AppError, ParserException{
+        AbstractSyntax forAbs = new AbstractSyntax();
         this.reader.eat(Sym.FOR);
         this.reader.eat(Sym.L_PAR);
-        this.expressions();
+        Expression e = this.expressions();
         this.reader.eat(Sym.R_PAR);
         this.reader.eat(Sym.L_CB);
-        this.blockInstructions();
+        this.blockInstructions(forAbs);
         this.reader.eat(Sym.R_CB);
+        ForInstruction forInst = new ForInstruction(e, forAbs);
+        abs.addInstruction(forInst);
     }
     
-    private void expressions() throws AppError, ParserException{
+    /**
+     * Process a not term expression and return this expression
+     * @return Expression
+     * @throws AppError         thrown if critical error
+     * @throws ParserException  thrown if not valid expression (Text not valid)
+     */
+    private Expression expressions() throws AppError, ParserException{
         if(this.reader.check(Sym.NUMBER_INT)){
+            Expression e = new IntExp(this.reader.getIntValue());
             this.reader.eat(Sym.NUMBER_INT);
-            this.expressionFollow();
+            return this.expressionFollow(e);
         } 
         else if(this.reader.check(Sym.VAR_NAME)){
+            Expression e = new Var(this.reader.getStrValue());
             this.reader.eat(Sym.VAR_NAME);
-            this.expressionFollow();
+            return this.expressionFollow(e);
         }
         else if(this.reader.check(Sym.L_PAR)){
             this.reader.eat(Sym.L_PAR);
-            this.expressions();
+            Expression e = this.expressions();
             this.reader.eat(Sym.R_PAR);
-            this.expressionFollow();
+            return this.expressionFollow(e);
         } 
         else {
             throw new ParserException("Expression", this.reader.getCurrentToken());
         }
     }
     
-    private void expressionFollow() throws AppError, ParserException{
+    private Expression expressionFollow(Expression pExpBefore) throws AppError, ParserException{
         if(this.checkNextIsOperator()){
-            this.operator();
-            this.expressionFollow();
+            Expression e2 = this.operator(pExpBefore);
+            return this.expressionFollow(e2);
+        } else {
+            return pExpBefore;
         }
-        //Otherwise, do nothing (Can be empty)
     }
     
-    private void operator() throws AppError, ParserException{
+    /**
+     * Process an expression with an operator. Means expression as operator 
+     * + or - or * or /
+     * @param pExpBefore expression to process with operator and next expression
+     * @return Expression new expression
+     * @throws AppError         thrown if critical error
+     * @throws ParserException  thrown if not valid expression (Text not valid)
+     */
+    private Expression operator(Expression pExpBefore) throws AppError, ParserException{
         if(this.reader.check(Sym.PLUS)){
             this.reader.eat(Sym.PLUS);
-            this.expressions();
+            return new Sum(pExpBefore, this.expressions());
         }
         else if(this.reader.check(Sym.LESS)){
             this.reader.eat(Sym.LESS);
-            this.expressions();
+            return new Difference(pExpBefore, this.expressions());
         } 
         else if(this.reader.check(Sym.MULTIPLY)){
             this.reader.eat(Sym.MULTIPLY);
-            this.expressions();
+            return new Product(pExpBefore, this.expressions());
         } 
         else if (this.reader.check(Sym.DIV)){
             this.reader.eat(Sym.DIV);
-            this.expressions();
+            return new Division(pExpBefore, this.expressions());
         } 
         else{
             throw new ParserException("Operator", this.reader.getCurrentToken());
