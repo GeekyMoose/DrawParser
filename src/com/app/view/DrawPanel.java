@@ -13,14 +13,14 @@ import java.awt.FlowLayout;
 /**
  * <h1>DrawPanel</h1>
  * <p>
- * class DrawPanel<br/>
+ * public class DrawPanel<br/>
  * extends ContentPanel
  * </p>
  * <p>DrawPanel is where draw is processed</p>
  * 
  * @author Constantin MASSON
  */
-class DrawPanel extends ContentPanel{
+public class DrawPanel extends ContentPanel{
     //**************************************************************************
     // Constants - Variables
     //**************************************************************************
