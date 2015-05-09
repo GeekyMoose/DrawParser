@@ -9,6 +9,7 @@ import com.exceptions.AppError;
 import com.exceptions.ExecError;
 import com.exceptions.ForbiddenAction;
 import com.exceptions.ParserException;
+import com.main.DebugTrack;
 import com.parser.asset.AbstractSyntax;
 import com.parser.asset.Grammar;
 import com.parser.asset.Grammar1;
@@ -61,14 +62,8 @@ public class AppData {
     public void runParser(File pFile) throws ForbiddenAction, ParserException, AppError, ExecError{
         AbstractSyntax abs = this.parser.startParser(Parser.MODE_GENERAL, pFile);
         abs.exec(new ValueEnvironment());
-        System.out.println("DEBUG in AppData : "+abs.toString());
-        
-        System.out.println("\n\n ***** DEBUG in AppData");
         ArrayList<ActionInstruction> list = abs.getActionsInstruction();
-        for(ActionInstruction i : list){
-            System.out.println(i.toString());
-        }
-        System.out.println("\n ***** END DEBUG *****\n\n");
+        DebugTrack.showActionInstructions(list);
     }
     
     

@@ -5,6 +5,7 @@
 package com.parser.instructions.asset;
 
 import com.exceptions.ForbiddenAction;
+import com.exceptions.ParserException;
 import com.parser.asset.AbstractSyntax;
 import com.parser.asset.Expression;
 import com.parser.asset.ValueEnvironment;
@@ -32,17 +33,20 @@ public class WhileInstruction extends Instruction{
     private Expression      exp2;
     private int             nbLoop;
     
+    private ArrayList<AbstractSyntax> listAbs;
+    
     
     //**************************************************************************
     // Constructors - Initialization
     //**************************************************************************
     public WhileInstruction(Expression pExp1, Expression pExp2, AbstractSyntax pAbs){
-        this.abs    = pAbs;
-        this.exp1   = pExp1;
-        this.exp2   = pExp2;
-        this.nbLoop = 0;
+        this.abs        = pAbs;
+        this.exp1       = pExp1;
+        this.exp2       = pExp2;
+        this.nbLoop     = 0;
+        this.listAbs    = new ArrayList();
     }
-
+    
     
     //**************************************************************************
     // Constants - Variables
@@ -51,14 +55,22 @@ public class WhileInstruction extends Instruction{
     public void exec(ValueEnvironment env) throws ForbiddenAction{
         while(this.exp1.eval(env) == this.exp2.eval(env)){
             this.nbLoop++;
+            try {
+                abs.exec(env);
+                this.listAbs.add(abs.getCopy());
+            } catch(ParserException ex) {
+                throw new ForbiddenAction(ex.getMessage());
+            }
         }
     }
 
     @Override
     public void addActionInstruction(ArrayList<ActionInstruction> pList){
-        ArrayList<ActionInstruction> list = this.abs.getActionsInstruction();
         for(int k=0; k<this.nbLoop; k++){
-            pList.add(list.get(k));
+            ArrayList<ActionInstruction> list = this.listAbs.get(k).getActionsInstruction();;
+            for(ActionInstruction i: list){
+                pList.add(i);
+            }
         }
     }
 

@@ -1,6 +1,20 @@
-dawdawdadsdasdsda
-d
-fs
-fase
-f
-ase
+/*
+ * This is a comment not parsed by grammar
+ * This text is working
+ */
+prog{
+	var angle;
+	var toto;
+	toto = 1;
+	angle = 0;
+	
+
+	while(toto == 1){
+        move angle;
+		angle = angle + 1;
+		if(angle == 5){
+		    toto = 0;
+		}
+	}
+	
+}

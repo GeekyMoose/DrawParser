@@ -5,6 +5,8 @@
 package com.main;
 
 import com.parser.asset.Token;
+import com.parser.instructions.actions.ActionInstruction;
+import java.util.ArrayList;
 
 
 
@@ -56,6 +58,26 @@ public abstract class DebugTrack {
         }
     }
     
+    /**
+     * Display a list of ActionInstruction
+     * @param pList list of ActionInstruction
+     */
+    public static void showActionInstructions(ArrayList<ActionInstruction> pList){
+        if(debug_mode == false){return;}
+        System.out.println();
+        if (debug_mode_brief == true){
+            for(ActionInstruction i : pList){
+                System.out.println(" *** Action : "+i.getDescription());
+            }
+        } else{
+            for(ActionInstruction i : pList){
+                System.out.println(" *** Debug in '"+DebugTrack.getFctNameAtStackTrack(3)
+                                   +"' -> "+i.getDescription());
+            }
+        }
+        System.out.println();
+    }
+    
     
     //**************************************************************************
     // Error message
@@ -100,5 +122,15 @@ public abstract class DebugTrack {
     private static String getfctName(){
         StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
         return stackTraceElements[2].getClassName();
+    }
+    
+    /**
+     * Get function name at a specific position in stackTrack
+     * @param pValue position in stackTrack
+     * @return String name of function
+     */
+    private static String getFctNameAtStackTrack(int pValue){
+        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+        return stackTraceElements[pValue].getClassName();
     }
 }

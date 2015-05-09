@@ -39,6 +39,11 @@ public class Move extends ActionInstruction{
         this.distance   = 0;
 	}
     
+    private Move(Expression e, int pDistance){
+		this.exp        = e;
+        this.distance   = pDistance;
+    }
+    
 
     //**************************************************************************
     // Functions
@@ -60,8 +65,14 @@ public class Move extends ActionInstruction{
     public int getValue(){
         return this.distance;
     }
+    
     @Override
     public String getDescription(){
-        return "Move";
+        return "Move ("+this.distance+")";
+    }
+    
+    @Override
+    public Instruction getCopy(){
+        return new Move(this.exp, this.distance);
     }
 }
