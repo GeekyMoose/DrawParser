@@ -5,6 +5,7 @@
 package com.app.view;
 
 import com.app.data.AppController;
+import com.app.data.Constants;
 import com.exceptions.AppError;
 import com.exceptions.ExecError;
 import com.exceptions.ForbiddenAction;
@@ -30,7 +31,7 @@ import javax.swing.JButton;
  * 
  * @author Constantin MASSON
  */
-public class HeadBar extends ContentPanel{
+public class HeadBar extends ContentPanel implements Constants{
     //**************************************************************************
     // Constants - Variables
     //**************************************************************************
@@ -44,7 +45,7 @@ public class HeadBar extends ContentPanel{
     //**************************************************************************
     public HeadBar(Application pParent, AppController pController) throws AppError{
         super(pParent, pController);
-        this.setPreferredSize(new Dimension(0, 40)); //Width = application width
+        this.setPreferredSize(DIM_HEAD_BAR); //Width = application width
         this.initComponents();
         this.setButtonActions();
     }

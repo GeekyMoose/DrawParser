@@ -83,7 +83,8 @@ public class Parser {
      * @throws ExecError        thrown if unable to load file (Wrong path etc)
      * @throws AppError         thrown if critical program error
      */
-    public void startParser(int pMode, File pFile) throws ForbiddenAction, ParserException, ExecError, AppError{
+    public void startParser(int pMode, File pFile) 
+    throws ForbiddenAction, ParserException, ExecError, AppError{
         if(this.grammar == null){
             throw new ForbiddenAction("Parser has not grammar! Add a grammar before!");
         }

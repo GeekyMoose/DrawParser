@@ -5,6 +5,7 @@
 package com.app.data;
 
 import java.awt.Dimension;
+import java.awt.Point;
 
 
 
@@ -16,8 +17,17 @@ public interface Constants {
     //**************************************************************************
     // Dimensions
     //**************************************************************************
-    public static final Dimension DIM_GENERAL       = new Dimension(500, 250);
+    public static final Dimension   DIM_GENERAL         = new Dimension(500, 250);
+    public static final Dimension   DIM_HEAD_BAR        = new Dimension(0, 40);
+    public static final Dimension   DIM_CONSOL_PANEL    = new Dimension(400, 200);
+    public static final Dimension   DIM_CODE_PANEL      = new Dimension(400, 800);
     
+    public static final Dimension   DIM_INST_PANEL      = new Dimension(150, 0);
+    public static final Dimension   DIM_ACTION_PANEL    = new Dimension(135, 50);
     
-    public static final String  DEFAULT_TMP_FILE    = "tmp.txt";
+    //**************************************************************************
+    //Other
+    //**************************************************************************
+    public static final String      DEFAULT_TMP_FILE    = "tmp.txt";
+    public static final Point       DEFAULT_POSITION    = new Point(0,0);
 }

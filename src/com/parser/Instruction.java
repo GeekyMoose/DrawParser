@@ -4,6 +4,8 @@
  */
 package com.parser;
 
+import com.exceptions.ForbiddenAction;
+
 
 
 /**
@@ -15,8 +17,10 @@ package com.parser;
  * @author  Constantin MASSON
  */
 abstract class Instruction {
-	abstract void exec(ValueEnvironment env);
+	abstract void exec(ValueEnvironment env) throws ForbiddenAction;
 }
+
+
 
 /**
  * Declare a new variable
@@ -27,10 +31,12 @@ class Declaration extends Instruction {
 	public Declaration(String s) {
 		this.varName = s;
 	}
+    @Override
 	public void exec(ValueEnvironment env) {
 		env.addVariable(this.varName);
-	} 
+	}
 }
+
 
 /**
  * Assign a new value in existing variable
@@ -40,14 +46,15 @@ class Assignment extends Instruction {
 	private String 		varName;
 	private Expression 	exp;
 	public Assignment(String s, Expression e) {
-		varName = s;
-		exp 	= e;
+		this.varName = s;
+		this.exp 	= e;
 	}
     @Override
-	public void exec(ValueEnvironment env) {
-		env.setVariable(this.varName, this.exp.eval(env));
+	public void exec(ValueEnvironment env) throws ForbiddenAction{
+        env.setVariable(this.varName, this.exp.eval(env));
 	}
 }
+
 
 /**
  * Move action
@@ -55,14 +62,17 @@ class Assignment extends Instruction {
  */
 class Move extends Instruction {
 	private Expression 	exp;
+    private int         distance;
 	public Move(Expression e) {
-		this.exp 	= e;
+		this.exp        = e;
+        this.distance   = 0;
 	}
     @Override
-    void exec(ValueEnvironment env){
-        
+    void exec(ValueEnvironment env) throws ForbiddenAction{
+        this.distance = this.exp.eval(env);
     }
 }
+
 
 /**
  * Make a rotation
@@ -70,14 +80,17 @@ class Move extends Instruction {
  */
 class Rotate extends Instruction {
 	private Expression 	exp;
+    private int         angle;
 	public Rotate(Expression e) {
 		this.exp 	= e;
+        this.angle  = 0;
 	}
     @Override
-    void exec(ValueEnvironment env){
-        
+    void exec(ValueEnvironment env) throws ForbiddenAction{
+        this.angle = this.exp.eval(env);
     }
 }
+
 
 /**
  * Place in up position
@@ -90,6 +103,7 @@ class Up extends Instruction {
     }
 }
 
+
 /**
  * Place in down position
  * @author Constantin MASSON
@@ -99,25 +113,4 @@ class Down extends Instruction {
     void exec(ValueEnvironment env){
         
     }
-}
-
-/**
- * Loop of instruction
- * @author Constantin MASSON
- */
-class Loop extends Instruction {
-	private Expression 	exp;
-	private Program 	prog;
-	public Loop(Expression e, Program p) {
-		this.exp 	= e;
-		this.prog 	= p;
-	}
-
-	public void exec(ValueEnvironment env){
-		if(exp != null){
-			for(int k=0; k<exp.eval(env); k++){
-				prog.run(env);
-			}
-		}
-	}
 }

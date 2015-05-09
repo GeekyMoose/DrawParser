@@ -4,6 +4,8 @@
  */
 package com.parser;
 
+import com.exceptions.ForbiddenAction;
+
 
 /**
  * <h1>Expression</h1>
@@ -14,7 +16,7 @@ package com.parser;
  * @author  Constantin MASSON
  */
 public abstract class Expression {
-	public abstract int eval(ValueEnvironment env) throws Exception;
+	public abstract int eval(ValueEnvironment env) throws ForbiddenAction;
 }
 
 
@@ -24,7 +26,7 @@ class IntExp extends Expression {
 		this.value = i;
 	}
     @Override
-	public int eval(ValueEnvironment env) throws Exception{
+	public int eval(ValueEnvironment env) throws ForbiddenAction{
 		return this.value;
 	}
 }
@@ -35,7 +37,7 @@ class Var extends Expression {
 		this.name = s;
 	}
     @Override
-	public int eval(ValueEnvironment env) throws Exception{
+	public int eval(ValueEnvironment env) throws ForbiddenAction{
 		return env.getValue(this.name);
 	}
 }
@@ -46,7 +48,7 @@ class Sum extends Expression {
 		this.left = l;
 		this.right = r;
 	}
-	public int eval(ValueEnvironment env) throws Exception{
+	public int eval(ValueEnvironment env) throws ForbiddenAction{
 		return this.left.eval(env) + this.right.eval(env);
 	}
 }
@@ -57,7 +59,7 @@ class Difference extends Expression {
 		left = l;
 		right = r;
 	}
-	public int eval(ValueEnvironment env) throws Exception{
+	public int eval(ValueEnvironment env) throws ForbiddenAction{
 		return left.eval(env) - right.eval(env);
 	}
 }
@@ -68,7 +70,7 @@ class Product extends Expression {
 		left = l;
 		right = r;
 	}
-	public int eval(ValueEnvironment env) throws Exception{
+	public int eval(ValueEnvironment env) throws ForbiddenAction{
 		return left.eval(env) * right.eval(env);
 	}
 }
@@ -79,7 +81,7 @@ class Division extends Expression {
 		left = l;
 		right = r;
 	}
-	public int eval(ValueEnvironment env) throws Exception{
+	public int eval(ValueEnvironment env) throws ForbiddenAction{
 		return left.eval(env) / right.eval(env);
 	}
 }

@@ -5,6 +5,7 @@
 package com.app.view;
 
 import com.app.data.AppController;
+import com.app.data.Constants;
 import com.exceptions.AppError;
 import com.exceptions.ExecError;
 import com.exceptions.ForbiddenAction;
@@ -37,7 +38,7 @@ import javax.swing.JTextArea;
  * 
  * @author Constantin MASSON
  */
-public class CodePanel extends ContentPanel{
+public class CodePanel extends ContentPanel implements Constants{
     //**************************************************************************
     // Constants - Variables
     //**************************************************************************
@@ -67,7 +68,7 @@ public class CodePanel extends ContentPanel{
      */
     public CodePanel(Application pParent, AppController pController) throws AppError{
         super(pParent, pController);
-        this.setPreferredSize(new Dimension(400, 800));
+        this.setPreferredSize(DIM_CODE_PANEL);
         this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         this.initComponents();
         this.updateNbChar();

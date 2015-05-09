@@ -5,6 +5,7 @@
 package com.app.view;
 
 import com.app.data.AppController;
+import com.app.data.Constants;
 import com.exceptions.AppError;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -29,14 +30,13 @@ import javax.swing.JTextField;
  * 
  * @author Constantin MASSON
  */
-public class ConsolPanel extends ContentPanel{
+public class ConsolPanel extends ContentPanel implements Constants{
     //**************************************************************************
     // Constants and variables
     //**************************************************************************
     private JTextArea       screenConsol;
     private JTextField      command;
     private JScrollPane     scroll;
-    
     private JPanel          wrapper;
     
     
@@ -51,7 +51,7 @@ public class ConsolPanel extends ContentPanel{
      */
     public ConsolPanel(Application pParent, AppController pController) throws AppError{
         super(pParent, pController);
-        this.setPreferredSize(new Dimension(400, 200));
+        this.setPreferredSize(DIM_CONSOL_PANEL);
         this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         this.initComponents();
         this.setActionCommand();
