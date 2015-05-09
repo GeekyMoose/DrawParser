@@ -11,7 +11,7 @@ import java.util.*;
  * @author Constantin MASSON
  */
 class AbstractSyntax {
-    private     ArrayList<Instruction> listInstruction;
+    private ArrayList<Instruction> listInstruction;
     
     
 	public AbstractSyntax() {
