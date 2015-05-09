@@ -32,14 +32,17 @@ public class ForInstruction extends Instruction{
     private Expression      exp1;
     private int             nbLoop;
     
+    private ArrayList<AbstractSyntax> listAbs;
+    
     
     //**************************************************************************
     // Constructor - Initialization
     //**************************************************************************
     public ForInstruction(Expression pExp1, AbstractSyntax pAbs){
-        this.abs    = pAbs;
-        this.exp1   = pExp1;
-        this.nbLoop = 0;
+        this.abs        = pAbs;
+        this.exp1       = pExp1;
+        this.nbLoop     = 0;
+        this.listAbs    = new ArrayList();
     }
 
     
@@ -49,8 +52,11 @@ public class ForInstruction extends Instruction{
     @Override
     public void exec(ValueEnvironment env) throws ForbiddenAction{
         try {
-            abs.exec(env);
             this.nbLoop = this.exp1.eval(env);
+            for(int k=0; k<this.nbLoop; k++){
+                abs.exec(env);
+                this.listAbs.add(abs.getCopy());
+            }
         } catch(ParserException ex) {
             throw new ForbiddenAction(ex.getMessage());
         }
@@ -58,9 +64,11 @@ public class ForInstruction extends Instruction{
     
     @Override
     public void addActionInstruction(ArrayList<ActionInstruction> pList){
-        ArrayList<ActionInstruction> list = this.abs.getActionsInstruction();
         for(int k=0; k<this.nbLoop; k++){
-            pList.add(list.get(k));
+            ArrayList<ActionInstruction> list = this.listAbs.get(k).getActionsInstruction();;
+            for(ActionInstruction i: list){
+                pList.add(i);
+            }
         }
     }
 

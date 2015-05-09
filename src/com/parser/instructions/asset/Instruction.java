@@ -37,4 +37,13 @@ public abstract class Instruction {
     public String toString(){
         return super.toString();
     }
+    
+    /**
+     * Return a copy of this instruction. Instance is actually different only 
+     * for actionInstruction
+     * @return 
+     */
+    public Instruction getCopy(){
+        return this;
+    }
 }

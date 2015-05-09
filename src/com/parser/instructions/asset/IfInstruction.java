@@ -108,8 +108,10 @@ public class IfInstruction extends Instruction{
     
     @Override
     public void addActionInstruction(ArrayList<ActionInstruction> pList){
-        for(ActionInstruction i : this.matchedAbs.getActionsInstruction()){
-            pList.add(i);
+        if(this.matchedAbs != null){
+            for(ActionInstruction i : this.matchedAbs.getActionsInstruction()){
+                pList.add(i);
+            }  
         }
     }
 

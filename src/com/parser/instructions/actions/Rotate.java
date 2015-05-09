@@ -39,6 +39,11 @@ public class Rotate extends ActionInstruction{
         this.angle      = 0;
 	}
     
+    private Rotate(Expression e, int pAngle){
+        this.exp        = e;
+        this.angle      = pAngle;
+    }
+    
 
     //**************************************************************************
     // Functions
@@ -60,8 +65,14 @@ public class Rotate extends ActionInstruction{
     public int getValue(){
         return this.angle;
     }
+    
     @Override
     public String getDescription(){
-        return "Rotate";
+        return "Rotate ("+this.angle+")";
+    }
+    
+    @Override
+    public Instruction getCopy(){
+        return new Rotate(this.exp, this.angle);
     }
 }

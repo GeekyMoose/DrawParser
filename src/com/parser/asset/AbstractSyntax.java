@@ -91,4 +91,16 @@ public class AbstractSyntax {
         }
         return str;
     }
+    
+    
+    //**************************************************************************
+    // Functions
+    //**************************************************************************
+    public AbstractSyntax getCopy(){
+        AbstractSyntax newAbs = new AbstractSyntax();
+        for(Instruction i: this.listInstruction){
+            newAbs.addInstruction(i.getCopy());
+        }
+        return newAbs;
+    }
 }
