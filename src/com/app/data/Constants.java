@@ -22,8 +22,8 @@ public interface Constants {
     public static final Dimension   DIM_CONSOL_PANEL    = new Dimension(400, 200);
     public static final Dimension   DIM_CODE_PANEL      = new Dimension(400, 800);
     
-    public static final Dimension   DIM_INST_PANEL      = new Dimension(150, 0);
-    public static final Dimension   DIM_ACTION_PANEL    = new Dimension(135, 50);
+    public static final Dimension   DIM_INST_PANEL      = new Dimension(180, 0);
+    public static final Dimension   DIM_ACTION_PANEL    = new Dimension(140, 50);
     
     //**************************************************************************
     //Other

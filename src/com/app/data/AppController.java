@@ -84,6 +84,16 @@ public class AppController implements Constants{
         File f = this.view.getCodePanel().createFile(DEFAULT_TMP_FILE);
         DebugTrack.showDebugMsg("Tmp file created : "+f.getAbsolutePath());
         this.model.runParser(f);
+        this.view.getInstructionPanel().createActionPanel(this.model.getListActions());
+    }
+    
+    /**
+     * Run till action given in parameter
+     * @param pAction last action to run (Run all action before)
+     */
+    public void runAction(Action pAction){
+        this.model.runAction(pAction);
+        this.view.repaint();
     }
     
 

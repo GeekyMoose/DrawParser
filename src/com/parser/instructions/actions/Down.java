@@ -58,4 +58,14 @@ public class Down extends ActionInstruction{
     public String getDescription(){
         return "Down";
     }
+    
+    @Override
+    public int getTypeAction(){
+        return ACTION_DOWN;
+    }
+
+    @Override
+    public int getValue(){
+        return ACTION_DOWN;
+    }
 }

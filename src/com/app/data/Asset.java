@@ -2,7 +2,6 @@
  * Creation:    May 9, 2015
  * Project Computer Science L2 Semester 4 - DrawParser
  */
-
 package com.app.data;
 
 import com.exceptions.ForbiddenAction;
