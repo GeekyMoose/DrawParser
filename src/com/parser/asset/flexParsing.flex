@@ -1,4 +1,5 @@
-package com.parser;
+
+package com.parser.asset;
 import com.exceptions.LexerException;
 
 %%
@@ -56,7 +57,7 @@ while               = "while"
 for                 = "for"
 
 var_crea            = "var" | "Var" | "VAR"
-var_name            = [a-z][a-zA-Z]*
+var_name            = [a-z][a-zA-Z_]*
 number_int          = [0-9][0-9]*
 assign              = "="
 

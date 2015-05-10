@@ -9,16 +9,10 @@ import com.app.data.AppController;
 import com.app.data.Constants;
 import com.exceptions.AppError;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -38,7 +32,7 @@ public class InstructionsPanel extends ContentPanel implements Constants{
     //**************************************************************************
     // Constants - Variables
     //**************************************************************************
-    private ArrayList<ActionPanel>  listActions;
+    private ArrayList<ActionView>   listActions;
     private JScrollPane             scroll;
     private JPanel                  wrapper;
     
@@ -54,9 +48,8 @@ public class InstructionsPanel extends ContentPanel implements Constants{
      */
     public InstructionsPanel(Application pParent, AppController pController) throws AppError{
         super(pParent, pController);
-        this.setPreferredSize(DIM_INST_PANEL);
-        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         this.listActions = new ArrayList();
+        this.setPreferredSize(DIM_INST_PANEL);
         this.initComponents();
     }
     
@@ -65,7 +58,7 @@ public class InstructionsPanel extends ContentPanel implements Constants{
         this.scroll     = new JScrollPane(wrapper);
         this.scroll     .setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         this.wrapper    .setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        
+        this            .setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         this            .setLayout(new BorderLayout());
         this.wrapper    .setLayout(new FlowLayout());
         
@@ -78,14 +71,14 @@ public class InstructionsPanel extends ContentPanel implements Constants{
     //**************************************************************************
     /**
      * Create a list of Action panel and display this list
-     * @param pList ArrayList of Action used to create ActionPanel
+     * @param pList ArrayList of Action used to create ActionView
      * @throws AppError if critical error
      */
     public void createActionPanel(ArrayList<Action> pList) throws AppError{
         this.listActions = new ArrayList();
         this.wrapper.removeAll();
         for(Action a : pList){
-            ActionPanel action = new ActionPanel(a, this.parent, this.controller);
+            ActionView action = new ActionView(a, this.parent, this.controller);
             this.listActions.add(action);
             this.wrapper.add(action);
         }
@@ -102,9 +95,9 @@ public class InstructionsPanel extends ContentPanel implements Constants{
     //**************************************************************************
     /**
      * Return list of action panel
-     * @return ArrayList of ActionPanel
+     * @return ArrayList of ActionView
      */
-    public ArrayList<ActionPanel> getListActionPanel(){
+    public ArrayList<ActionView> getListActionPanel(){
         return this.listActions;
     }
 }

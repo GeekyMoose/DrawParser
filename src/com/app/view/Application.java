@@ -5,9 +5,9 @@
 package com.app.view;
 
 import com.app.data.AppController;
+import com.app.data.Constants;
 import com.exceptions.AppError;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,18 +16,19 @@ import javax.swing.JPanel;
 
 /**
  * <h1>Application</h1>
- * <p>public class Application</p>
+ * <p>
+ * public class Application<br/>
+ * extends JFrame<br/>
+ * implements Constants
+ * </p>
  *
  * @date    May 8, 2015
  * @author  Constantin MASSON
  */
-public class Application extends JFrame{
+public class Application extends JFrame implements Constants{
     //**************************************************************************
     // Constants - Variables
     //**************************************************************************
-    public static final Dimension   DIM_DEFAULT   = new Dimension(1250, 600);
-    public static final Dimension   DIM_MIN       = new Dimension(700, 500);
-    public static final Dimension   DIM_MAX       = new Dimension(1500, 1000);
     private     AppController       controller;
     
     private     HeadBar             headBar;
@@ -55,7 +56,7 @@ public class Application extends JFrame{
         this.controller = pController;
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(true);
-        this.setPreferredSize(DIM_DEFAULT);
+        this.setPreferredSize(DIM_APP);
         this.setMaximumSize(DIM_MAX);
         this.setMinimumSize(DIM_MIN);
         this.initComponents();
@@ -80,6 +81,7 @@ public class Application extends JFrame{
         
         this.wrap_dataPanel     .setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         this.wrap_center        .setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        this.wrap_dataPanel     .setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
         this.wrap_dataPanel     .add(this.codePanel, BorderLayout.CENTER);
         this.wrap_dataPanel     .add(this.consolPanel, BorderLayout.SOUTH);
@@ -94,19 +96,18 @@ public class Application extends JFrame{
     }
     
     
-    
-    
-    
-
     //**************************************************************************
-    // Functions
+    //Functions 
     //**************************************************************************
+    /**
+     * Write a cmd in consol
+     * @param pStr String to write
+     */
+    public void writeCmd(String pStr){
+        this.consolPanel.writeConsol(pStr);
+    }
     
     
-    
-    
-    
-
     //**************************************************************************
     // Getters - Setters
     //**************************************************************************
@@ -116,6 +117,14 @@ public class Application extends JFrame{
      */
     public CodePanel getCodePanel(){
         return this.codePanel;
+    }
+    
+    /**
+     * Return current application consol panel
+     * @return Consol Panel for this Application
+     */
+    public ConsolPanel getConsolPanel(){
+        return this.consolPanel;
     }
     
     /**

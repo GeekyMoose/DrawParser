@@ -17,20 +17,30 @@ public interface Constants {
     //**************************************************************************
     // Dimensions
     //**************************************************************************
-    public static final Dimension   DIM_GENERAL         = new Dimension(500, 250);
-    public static final Dimension   DIM_HEAD_BAR        = new Dimension(0, 40);
+    public static final Dimension   DIM_APP             = new Dimension(1250, 600);
+    public static final Dimension   DIM_MIN             = new Dimension(700, 500);
+    public static final Dimension   DIM_MAX             = new Dimension(1500, 1000);
+    
+    public static final Dimension   DIM_HEAD_BAR        = new Dimension(0, 30);
+    public static final Dimension   DIM_DATA_BOX        = new Dimension(300, 30);
+    
     public static final Dimension   DIM_CONSOL_PANEL    = new Dimension(400, 200);
+    public static final Dimension   DIM_CONSOL_TXT      = new Dimension(400, 200);
+    public static final Dimension   DIM_CONSOL_CMD      = new Dimension(400, 25);
+    
     public static final Dimension   DIM_CODE_PANEL      = new Dimension(400, 800);
     
-    public static final Dimension   DIM_INST_PANEL      = new Dimension(180, 0);
+    public static final Dimension   DIM_INST_PANEL      = new Dimension(180, 800);
     public static final Dimension   DIM_ACTION_PANEL    = new Dimension(140, 50);
     
+    
     //**************************************************************************
-    //Other
+    //Default setting
     //**************************************************************************
-    public static final String      DEFAULT_TMP_FILE    = "tmp.txt";
-    public static final Point       DEFAULT_POSITION    = new Point(50,50);
+    public static final String      DEFAULT_TMP_FILE    = "data/tmp.txt";
+    
+    public static final Point       DEFAULT_POSITION    = new Point(0,0);
     public static final int         DEFAULT_ANGLE       = 0;
-    public static final boolean     DEFAULT_IS_DRAWING  = true;
+    public static final boolean     DEFAULT_IS_DRAWING  = false;
     public static final int         DEFAULT_THICKNESS   = 2;
 }

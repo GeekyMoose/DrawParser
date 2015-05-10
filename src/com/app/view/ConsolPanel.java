@@ -5,13 +5,16 @@
 package com.app.view;
 
 import com.app.data.AppController;
+import com.app.data.Asset;
 import com.app.data.Constants;
 import com.exceptions.AppError;
+import com.exceptions.ExecError;
+import com.exceptions.ForbiddenAction;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -51,12 +54,13 @@ public class ConsolPanel extends ContentPanel implements Constants{
      */
     public ConsolPanel(Application pParent, AppController pController) throws AppError{
         super(pParent, pController);
-        this.setPreferredSize(DIM_CONSOL_PANEL);
-        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         this.initComponents();
         this.setActionCommand();
     }
     
+    /*
+     * Initialize all components
+     */
     private void initComponents(){
         this.wrapper        = new JPanel();
         this.screenConsol   = new JTextArea();
@@ -67,8 +71,12 @@ public class ConsolPanel extends ContentPanel implements Constants{
         this.scroll         .setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         this.screenConsol   .setEditable(false);
         this.screenConsol   .setTabSize(4);
-        this.screenConsol   .setMargin(new Insets(10,10,10,10));
-        this.command        .setMargin(new Insets(10,10,10,10));
+        this.screenConsol   .setMargin(new Insets(2,10,2,10));
+        this.command        .setMargin(new Insets(0,10,0,10));
+        
+        this                .setPreferredSize(DIM_CONSOL_PANEL);
+        this.scroll         .setPreferredSize(DIM_CONSOL_TXT);
+        this.command        .setPreferredSize(DIM_CONSOL_CMD);
         
         
         this                .setLayout(new BorderLayout());
@@ -90,8 +98,9 @@ public class ConsolPanel extends ContentPanel implements Constants{
                     int key = e.getKeyCode();
                     if (key == KeyEvent.VK_ENTER) {
                         String cmd = command.getText();
-                        writeConsol(cmd);
+                        controller.runInterpreterModeParser(cmd);
                         command.setText("");
+                        writeConsol(cmd);
                     }
                 }
 

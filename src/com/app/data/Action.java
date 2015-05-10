@@ -100,29 +100,36 @@ public class Action implements Constants{
     public void calculate(){
         if(this.previousAction==null){
             //If origin, do nothing
-            return;
         }
-        //Default calcul, recovered from previous action
-        this.isDrawing  = this.previousAction.isDrawing();
-        this.angle      = this.previousAction.getAngle();
-        this.originPoint= this.previousAction.getEndPosition();
-        this.endPoint   = this.originPoint;
-        this.thickness  = this.previousAction.getThickness();
-        //Do specific action
-        switch(this.instruction.getTypeAction()){
-            case ActionInstruction.ACTION_DOWN:
-                this.isDrawing  = true;
-                break;
-            case ActionInstruction.ACTION_MOVE:
-                System.out.println(this.instruction.getValue());
-                this.endPoint   = Calculator.getNewPosition(originPoint, angle, this.instruction.getValue());
-                break;
-            case ActionInstruction.ACTION_ROTATE:
-                this.angle      = this.previousAction.getAngle()+this.instruction.getValue();
-                break;
-            case ActionInstruction.ACTION_UP:
-                this.isDrawing  = false;
-                break;
+        else if (this.isUsed == false){
+            this.isDrawing  = this.previousAction.isDrawing();
+            this.angle      = this.previousAction.getAngle();
+            this.originPoint= this.previousAction.getEndPosition();
+            this.endPoint   = this.originPoint;
+            this.thickness  = this.previousAction.getThickness();
+        }
+        else{
+            //Default calcul, recovered from previous action
+            this.isDrawing  = this.previousAction.isDrawing();
+            this.angle      = this.previousAction.getAngle();
+            this.originPoint= this.previousAction.getEndPosition();
+            this.endPoint   = this.originPoint;
+            this.thickness  = this.previousAction.getThickness();
+            //Do specific action
+            switch(this.instruction.getTypeAction()){
+                case ActionInstruction.ACTION_DOWN:
+                    this.isDrawing  = true;
+                    break;
+                case ActionInstruction.ACTION_MOVE:
+                    this.endPoint   = Calculator.getNewPosition(originPoint, angle, this.instruction.getValue());
+                    break;
+                case ActionInstruction.ACTION_ROTATE:
+                    this.angle      = this.previousAction.getAngle()+this.instruction.getValue();
+                    break;
+                case ActionInstruction.ACTION_UP:
+                    this.isDrawing  = false;
+                    break;
+            }
         }
     }
     
@@ -166,5 +173,5 @@ public class Action implements Constants{
     
     
     public void     setIsRunning(boolean pValue)    {this.isRunning = pValue;}
-    public void     setIsUsed(boolean pValue)       {this.isUsed = pValue;}
+    public void     setIsUsed(boolean pValue)       {this.isUsed    = pValue;}
 }

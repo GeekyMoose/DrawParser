@@ -13,6 +13,8 @@ import com.exceptions.ParserException;
 import com.main.DebugTrack;
 import java.awt.Dimension;
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
 
@@ -64,7 +66,7 @@ public class AppController implements Constants{
      * @throws ExecError        thrown if unable to load file (Wrong path etc)
      * @throws AppError         thrown if critical program error
      */
-    public void runCodePanelParser() throws ExecError, ForbiddenAction, ParserException, AppError{
+    public void runGeneralModeParser() throws ExecError, ForbiddenAction, ParserException, AppError{
         File f = this.view.getCodePanel().createFile(DEFAULT_TMP_FILE);
         DebugTrack.showDebugMsg("Tmp file created : "+f.getAbsolutePath());
         this.model.runParser(f);
@@ -73,11 +75,35 @@ public class AppController implements Constants{
     }
     
     /**
+     * Run parser with interpreter mode.
+     * @param pStr String to process 
+     */
+    public void runInterpreterModeParser(String pStr) {
+        try {
+            File f = Asset.getFileFromStr(pStr, DEFAULT_TMP_FILE);
+            DebugTrack.showDebugMsg("Tmp file created : "+f.getAbsolutePath());
+            this.model.runInterpreterParser(f);
+        } catch(ForbiddenAction | ParserException | ExecError | AppError ex) {
+            
+        }
+    }
+    
+    /**
      * Run till action given in parameter
      * @param pAction last action to run (Run all action before)
      */
     public void runAction(Action pAction){
         this.model.runAction(pAction);
+        this.view.repaint();
+    }
+    
+    /**
+     * Change used mode of an action
+     * @param pAction       action to modify
+     * @param pIsUsed       used value (True or false)
+     */
+    public void useAction(Action pAction, boolean pIsUsed){
+        this.model.useAction(pAction, pIsUsed);
         this.view.repaint();
     }
     
