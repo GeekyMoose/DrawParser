@@ -87,7 +87,7 @@ public class ActionPanel extends ContentPanel implements MouseListener{
             BasicStroke bs1 = new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL);
             g2d.setStroke(bs1);
             Point p1 = this.actionModel.getPosition();
-            Point p2 = this.actionModel.getNextPosition();
+            Point p2 = this.actionModel.getEndPosition();
             g2d.drawLine(p1.x, p1.y, p2.x, p2.y);
         }
     }

@@ -19,7 +19,11 @@ import javax.swing.JFileChooser;
 
 /**
  * <h1>AppController</h1>
- * <p>public class AppController</p>
+ * <p>
+ * public class AppController<br/>
+ * implements Constants
+ * </p>
+ * <p>Controller for Parser Application</p>
  *
  * @date    May 9, 2015
  * @author  Constantin MASSON
@@ -50,28 +54,8 @@ public class AppController implements Constants{
     
 
     //**************************************************************************
-    // Functions
+    // Parser Functions
     //**************************************************************************
-    public void setTextPanelText(String pStr){
-        this.view.getCodePanel().setText(pStr);
-    }
-    
-    /**
-     * Load a file using JFileChooser. If not valid, throw exception
-     * @throws ForbiddenAction thrown if unable to load file
-     */
-    public void loadFile() throws ForbiddenAction{
-        String          txt     = new String();
-        JFileChooser    chooser = new JFileChooser();
-        chooser.setPreferredSize (new Dimension (500, 300));
-        int             choice  = chooser.showOpenDialog(null);
-        if (choice == JFileChooser.APPROVE_OPTION) {
-            File    selection   = chooser.getSelectedFile();
-            String  str         = Asset.getStrFromFile(selection);
-            this.view.getCodePanel().setText(str);
-        }
-    }
-    
     /**
      * Run the parser on current code in CodeArea. It will previously create a 
      * file with current CodeArea content 
@@ -95,6 +79,26 @@ public class AppController implements Constants{
     public void runAction(Action pAction){
         this.model.runAction(pAction);
         this.view.repaint();
+    }
+    
+
+    //**************************************************************************
+    // Asset Functions
+    //**************************************************************************
+    /**
+     * Load a file using JFileChooser. If not valid, throw exception
+     * @throws ForbiddenAction thrown if unable to load file
+     */
+    public void loadFile() throws ForbiddenAction{
+        String          txt     = new String();
+        JFileChooser    chooser = new JFileChooser();
+        chooser.setPreferredSize (new Dimension (500, 300));
+        int             choice  = chooser.showOpenDialog(null);
+        if (choice == JFileChooser.APPROVE_OPTION) {
+            File    selection   = chooser.getSelectedFile();
+            String  str         = Asset.getStrFromFile(selection);
+            this.view.getCodePanel().setText(str);
+        }
     }
     
 
