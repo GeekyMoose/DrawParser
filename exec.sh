@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Compile and then, execute drawPanel project 
-# Compiled files (.class) are saved in folder jjgenerated
+# Compiled files (.class) are saved in a specific folder (See constants DOSS_BUILD)
 
 
 
@@ -9,13 +9,11 @@
 # Variables and Constants
 #*******************************************************************************
 PWD_EXEC=`pwd`
-DOSS_BUILD="build"
+DOSS_BUILD="build/"
 
 #Constants for execution
-JFLEX_PATH="src/parser/"
-MAIN_PATH="src/main/"
-
-EXEC_CLASS_NAME="Main"
+MAIN_PATH="src/com/main/"
+EXEC_CLASS_NAME="com.main.Main"
 
 
 
@@ -46,27 +44,13 @@ function createArbo(){
 #
 # All build files are saved in specific file (from constants $DOSS_BUILD)
 function execute(){
-	jflex $JFLEX_PATH"programme.flex"
-	rm $JFLEX_PATH"/Lexer.java~"
 	javac -d $DOSS_BUILD -sourcepath src $MAIN_PATH"Main.java"
-	java -cp $DOSS_BUILD $EXEC_CLASS_NAME
-}
-
-#Check if parameters are valid
-function checkParam(){
-	if [ -z $1 ];then
-		echo "Missing parameter (Text to process)"
-		exit 1
-
-	elif [ ! -e $1 ];then 
-		echo "File $1 doesn't exists"
-		exit 1
-	fi
+	checkError
+	nohup java -cp $DOSS_BUILD $EXEC_CLASS_NAME
 }
 
 
 #Launch script
-checkParam "$@"
 createArbo
 execute
 

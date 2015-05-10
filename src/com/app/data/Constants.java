@@ -4,7 +4,6 @@
  */
 package com.app.data;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 

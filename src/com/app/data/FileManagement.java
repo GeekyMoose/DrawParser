@@ -6,6 +6,8 @@ package com.app.data;
 
 import com.exceptions.ExecError;
 import com.exceptions.ForbiddenAction;
+import com.main.UiDialog;
+import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -13,19 +15,21 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.text.JTextComponent;
 
 
 
 /**
- * <h1>Asset</h1>
- * <p>public class Asset</p>
+ * <h1>FileManagement</h1>
+ * <p>public class FileManagement</p>
  * <p>Some useful function</p>
  *
  * @date    May 9, 2015
  * @author  Constantin MASSON
  */
-public abstract class Asset {
+public abstract class FileManagement {
     //**************************************************************************
     // Files Management Functions
     //**************************************************************************
@@ -74,12 +78,12 @@ public abstract class Asset {
      * @return file created
      * @throws ForbiddenAction thrown if unable to create the file 
      */
-    public static File getFileFromStr(String pStr, String pFileName )throws ForbiddenAction{
+    public static File getFileFromStr(String pStr, String pFileName)throws ForbiddenAction{
         if(pStr == null || pFileName == null ){
             throw new ForbiddenAction("Unable to create the file");
         }
-        File f = new File(pFileName);
-        FileWriter fw;
+        File        f = new File(pFileName);
+        FileWriter  fw;
         try{
             fw = new FileWriter(f);
             fw.write(pStr);
@@ -119,4 +123,63 @@ public abstract class Asset {
         }
         return file;
     }
+    
+    
+    
+    
+    
+    
+    //**************************************************************************
+    // JFileChooser manager and usefull function
+    //**************************************************************************
+    /**
+     * Display a JFileChooser in OpenDialog mode. It return the file selected, 
+     * or null if no file selected
+     * @param pDim JFileChooser dimension. Default dim if null given
+     * @return File selected, null if no file selected
+     */
+    public static File fileChooserDialog(Dimension pDim){
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new File("."));
+        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        if(pDim != null){
+            chooser.setPreferredSize (pDim);
+        }
+        if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            return chooser.getSelectedFile();
+        }
+        return null;
+    }
+    
+    /**
+     * Display a JFileChooser in order to create a new file. It return the file 
+     * created. If file already exists, display a JOptionPane dialog in order to 
+     * valid. If no file created (or cancel operation), return null
+     * @param pDim JFileChooser dimension. Default dim if null given
+     * @return File to save (New one or old one if already exists) or null if canceled
+     */
+    public static File fileSaverDialog(Dimension pDim){
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new File("."));
+        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        if(pDim != null){
+            chooser.setPreferredSize (pDim);
+        }
+        
+        if(chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION){
+            File f = chooser.getSelectedFile();
+            if(f.exists()==false){
+                return f;
+            }
+            
+            int choice = UiDialog.showYesNoWarning("File already exists", 
+                            "File "+f.getName()+" already exists! Are you sure you want "
+                            + "do override it?");
+            if(choice==JOptionPane.OK_OPTION){
+                return f;
+            }
+        }
+        return null;
+    }
+    
 }

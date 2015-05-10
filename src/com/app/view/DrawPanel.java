@@ -11,6 +11,7 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 
@@ -28,24 +29,27 @@ import javax.swing.BorderFactory;
  */
 public class DrawPanel extends ContentPanel{
     //**************************************************************************
-    // Constants - Variables
-    //**************************************************************************
-    
-    
-    //**************************************************************************
     // Constructor - Initialization
     //**************************************************************************
+    /**
+     * Create a new DrawPanel
+     * @param pParent       Application parent of this TextPanel
+     * @param pController   Application controller
+     * @throws AppError thrown if critical error
+     */
     public DrawPanel(Application pParent, AppController pController) throws AppError{
         super(pParent, pController);
-        this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.BLACK));
-        //this.setPreferredSize(new Dimension(100, 100));
         this.initComponents();
     }
     
+    /*
+     * Initialize all components
+     */
     private void initComponents(){
         this.setLayout(new FlowLayout());
         this.setBackground(Color.BLACK);
         this.setOpaque(false);
+        this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.BLACK));
     }
     
     @Override
@@ -62,5 +66,22 @@ public class DrawPanel extends ContentPanel{
         for(ActionView ap : list){
             ap.drawAction(g2d);
         }
+    }
+    
+    
+    //**************************************************************************
+    // Constants - Variables
+    //**************************************************************************
+    /**
+     * Create a image of current DrawPanel. Return an BufferedImage
+     * @return BufferedImage
+     */
+    public BufferedImage getImage(){
+        BufferedImage img;
+        img = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics g = img.createGraphics();
+        this.paint(g);
+        g.dispose();
+        return img;
     }
 }
