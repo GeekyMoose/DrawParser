@@ -1,7 +1,1 @@
-fsfsdfsdfsdfsdfsd
-fsfs
-ef
-d
-fs
-f
-fdfsfsdfs
+move 100;

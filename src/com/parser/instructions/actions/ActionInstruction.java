@@ -21,6 +21,7 @@ public abstract class ActionInstruction extends Instruction{
     public static final int ACTION_DOWN     = 1;
     public static final int ACTION_MOVE     = 2;
     public static final int ACTION_ROTATE   = 3;
+    public static final int ACTION_FAT      = 4;
     
     /**
      * Get a short description of the action

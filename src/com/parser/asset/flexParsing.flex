@@ -66,6 +66,7 @@ move                = "move" | "Move" | "MOVE"
 rotate              = "rotate" | "Rotate" | "ROTATE"
 up                  = "up" | "Up" | "UP"
 down                = "down" | "Down" | "DOWN"
+fat                 = "fat" | "Fat" | "FAT"
 
 
 
@@ -95,6 +96,7 @@ down                = "down" | "Down" | "DOWN"
     {down}          {return getToken(Sym.DOWN);}
     {move}          {return getToken(Sym.MOVE);}
     {rotate}        {return getToken(Sym.ROTATE);}
+    {fat}           {return getToken(Sym.FAT);}
 
     "=="            {return getToken(Sym.EQ);}
     {if}            {return getToken(Sym.IF);}

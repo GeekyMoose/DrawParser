@@ -35,6 +35,7 @@ public enum Sym {
     DOWN("DOWN"),
     MOVE("MOVE"),
     ROTATE("ROTATE"),
+    FAT("FAT"),
     
     //Check elements
     EQ("=="),

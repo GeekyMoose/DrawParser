@@ -142,13 +142,27 @@ public class ActionView extends ContentPanel implements MouseListener{
      */
     public void drawAction(Graphics2D g2d){
         if(this.actionModel.isDrawing() && this.actionModel.isRunning()){
-            BasicStroke bs1 = new BasicStroke(this.actionModel.getThickness(), 
-                    BasicStroke.CAP_ROUND, 
-                    BasicStroke.JOIN_BEVEL);
-            g2d.setStroke(bs1);
-            Point p1 = this.actionModel.getPosition();
-            Point p2 = this.actionModel.getEndPosition();
-            g2d.drawLine(p1.x, p1.y, p2.x, p2.y);
+            int thickness = this.actionModel.getThickness();
+            if(this.isHover==true){
+                g2d.setColor(Color.BLUE);
+                thickness += 2;
+                BasicStroke bs1 = new BasicStroke(thickness, 
+                        BasicStroke.CAP_ROUND, 
+                        BasicStroke.JOIN_BEVEL);
+                g2d.setStroke(bs1);
+                Point p1 = this.actionModel.getPosition();
+                Point p2 = this.actionModel.getEndPosition();
+                g2d.drawLine(p1.x, p1.y, p2.x, p2.y);
+                g2d.setColor(Color.YELLOW);
+            } else{
+                BasicStroke bs1 = new BasicStroke(thickness, 
+                        BasicStroke.CAP_ROUND, 
+                        BasicStroke.JOIN_BEVEL);
+                g2d.setStroke(bs1);
+                Point p1 = this.actionModel.getPosition();
+                Point p2 = this.actionModel.getEndPosition();
+                g2d.drawLine(p1.x, p1.y, p2.x, p2.y);
+            }
         }
     }
     
@@ -174,13 +188,13 @@ public class ActionView extends ContentPanel implements MouseListener{
     public void mouseEntered(MouseEvent e){
         this.setBorder(this.border_hover);
         this.isHover = true;
-        this.repaint();
+        this.parent.repaint();
     }
 
     @Override
     public void mouseExited(MouseEvent e){
         this.setBorder(this.border_default);
         this.isHover = false;
-        this.repaint();
+        this.parent.repaint();
     }
 }

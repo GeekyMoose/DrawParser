@@ -138,6 +138,13 @@ public class HeadBar extends ContentPanel implements Constants{
                 }
             }
         });
+        
+        this.butt_print.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                controller.takePicture();
+            }
+        });
     }
     
     

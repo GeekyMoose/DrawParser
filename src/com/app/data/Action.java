@@ -127,6 +127,9 @@ public class Action implements Constants{
                 case ActionInstruction.ACTION_UP:
                     this.isDrawing  = false;
                     break;
+                case ActionInstruction.ACTION_FAT:
+                    this.thickness  = this.instruction.getValue();
+                    break;
             }
         }
     }

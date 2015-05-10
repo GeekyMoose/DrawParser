@@ -13,6 +13,7 @@ import com.main.DebugTrack;
 import com.parser.asset.AbstractSyntax;
 import com.parser.asset.Grammar;
 import com.parser.asset.Grammar1;
+import com.parser.asset.Grammar2;
 import com.parser.asset.Parser;
 import com.parser.asset.ValueEnvironment;
 import com.parser.instructions.actions.ActionInstruction;
@@ -45,7 +46,7 @@ public class AppData {
      * Create a new AppData with default grammar and parser
      */
     public AppData(){
-        this.grammer        = new Grammar1();
+        this.grammer        = new Grammar2();
         this.parser         = new Parser(grammer);
         this.listActions    = new ArrayList();
         this.env            = new ValueEnvironment();

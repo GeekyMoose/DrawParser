@@ -136,6 +136,14 @@ public class Application extends JFrame implements Constants{
     }
     
     /**
+     * Return drawPanel
+     * @return DrawPanel
+     */
+    public DrawPanel getDrawPanel(){
+        return this.drawPanel;
+    }
+    
+    /**
      * Return application Instruction Panel
      * @return InstructionsPanel of this application
      */
