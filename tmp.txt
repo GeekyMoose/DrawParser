@@ -8,13 +8,9 @@ prog{
 	toto = 1;
 	angle = 0;
 	
-
-	while(toto == 1){
-        move angle;
-		angle = angle + 1;
-		if(angle == 20){
-		    toto = 0;
-		}
+	for(5){
+	    move 50;
+		rotate 90;
 	}
-	
 }
+

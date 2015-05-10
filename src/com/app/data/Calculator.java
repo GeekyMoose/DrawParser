@@ -25,7 +25,14 @@ public abstract class Calculator {
     // Functions
     //**************************************************************************
     public static Point getNewPosition(Point currentPos, int pAngle, int pMove){
-        return null;
+        double angle = Math.toRadians(pAngle);
+        Point p = new Point();
+        //p.x = currentPos.x + pMove;
+        //p.y = currentPos.y + pMove;
+        
+        p.x = (int)(currentPos.x + 40 * Math.sin(angle));
+        p.y = (int)(currentPos.y + 40 * Math.cos(angle));
+        return p;
     }
     
 
