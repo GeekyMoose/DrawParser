@@ -32,9 +32,9 @@ public class ValueEnvironment extends HashMap<String, Integer> {
      * @throws ForbiddenAction thrown if variable doesn't exists
      */
 	public void setVariable(String name, int value) throws ForbiddenAction {
-        if(this.get(name)==null){
+        if(this.containsKey(name)==false){
             //error -> get return value, I need to check if var is already here
-            //throw new ForbiddenAction(name+" must be declared before");
+            throw new ForbiddenAction(name+" must be declared before");
         }
 		this.replace(name, value);
 	}
