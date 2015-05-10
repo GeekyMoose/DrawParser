@@ -11,6 +11,7 @@ import com.exceptions.ExecError;
 import com.exceptions.ForbiddenAction;
 import com.exceptions.ParserException;
 import com.main.DebugTrack;
+import com.main.UiDialog;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -18,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -139,13 +141,31 @@ public class AppController implements Constants{
      * Take a picture of current Panel
      */
     public void takePicture(){
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new File("."));
+        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        chooser.setPreferredSize (new Dimension (500, 300));
+        int returnValue = chooser.showSaveDialog(null);
+        if(returnValue!=JFileChooser.APPROVE_OPTION){
+            return;
+        }
+        File f = chooser.getSelectedFile();
+        if(f.exists()){
+            int choice = UiDialog.showYesNoWarning("File already exists", 
+                            "File "+f.getName()+" already exists! Are you sure you want "
+                            + "do override it?");
+            if(choice!=JOptionPane.OK_OPTION){
+                return;
+            }
+        }
+        //Create img
         JPanel p = this.view.getDrawPanel();
         BufferedImage img = new BufferedImage(p.getWidth(), p.getHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics g = img.createGraphics();
         p.paint(g);
         g.dispose();
         try {
-            ImageIO.write(img, "png", new File("panel.png"));
+            ImageIO.write(img, "png", new File(f.getAbsolutePath()));
         } catch (IOException e) {
         }
     }
