@@ -1,6 +1,6 @@
 /*
  * Creation:    May 9, 2015
- * 
+ * Project Computer Science L2 Semester 4 - DrawParser
  */
 
 package com.app.data;
@@ -17,6 +17,12 @@ import java.awt.Point;
  * public class Action<br/>
  * implements Constants
  * </p>
+ * 
+ * <p>
+ * Action is an action displayable by a drawPanel from Parser Application. 
+ * It is created from an ActionInstruction. All element are calculated from the 
+ * previous action (First action is made with default value)
+ * </p>
  *
  * @date    May 9, 2015
  * @author  Constantin MASSON
@@ -30,16 +36,20 @@ public class Action implements Constants{
     public static final int     ADD_DELETED     = 2;
     public static final int     ADDED           = 3;
     
+    private Action              previousAction;
     private ActionInstruction   instruction;
     private String              description;
-    private boolean             isRunning;
-    private boolean             isDrawing;
-    private Action              previousAction;
-    private int                 angle;
+    
     private Point               originPoint;
     private Point               endPoint;
+    private int                 angle; //Angle in degre, 0 is vertical bottom direction
     private int                 state;
     private int                 thickness;
+    private int                 color;
+    
+    private boolean             isUsed;     //User can temporary delete an action
+    private boolean             isRunning;
+    private boolean             isDrawing;
     
     
     
@@ -56,6 +66,7 @@ public class Action implements Constants{
         this.angle          = DEFAULT_ANGLE;
         this.isDrawing      = DEFAULT_IS_DRAWING;
         this.isRunning      = true;
+        this.isUsed         = true;
         this.description    = "first";
         this.thickness      = DEFAULT_THICKNESS;
     }
@@ -78,6 +89,7 @@ public class Action implements Constants{
         this.instruction        = pInst;
         this.state              = pState;
         this.isRunning          = true;
+        this.isUsed             = true;
         this.description        = pInst.getDescription();
         this.calculate();
     }
@@ -90,41 +102,33 @@ public class Action implements Constants{
             //If origin, do nothing
             return;
         }
+        //Default calcul, recovered from previous action
+        this.isDrawing  = this.previousAction.isDrawing();
+        this.angle      = this.previousAction.getAngle();
+        this.originPoint= this.previousAction.getEndPosition();
+        this.endPoint   = this.originPoint;
+        this.thickness  = this.previousAction.getThickness();
+        //Do specific action
         switch(this.instruction.getTypeAction()){
             case ActionInstruction.ACTION_DOWN:
                 this.isDrawing  = true;
-                this.angle      = this.previousAction.getAngle();
-                this.originPoint= this.previousAction.getNextPosition();
-                this.endPoint   = this.originPoint;
-                this.thickness  = this.previousAction.getThickness();
                 break;
             case ActionInstruction.ACTION_MOVE:
-                this.isDrawing  = this.previousAction.isDrawing();
-                this.angle      = this.previousAction.getAngle();
-                this.originPoint= this.previousAction.getNextPosition();
+                System.out.println(this.instruction.getValue());
                 this.endPoint   = Calculator.getNewPosition(originPoint, angle, this.instruction.getValue());
-                this.thickness  = this.previousAction.getThickness();
                 break;
             case ActionInstruction.ACTION_ROTATE:
-                this.isDrawing  = this.previousAction.isDrawing();
                 this.angle      = this.previousAction.getAngle()+this.instruction.getValue();
-                this.originPoint= this.previousAction.getNextPosition();
-                this.endPoint   = this.originPoint;
-                this.thickness  = this.previousAction.getThickness();
                 break;
             case ActionInstruction.ACTION_UP:
                 this.isDrawing  = false;
-                this.angle      = this.previousAction.getAngle();
-                this.originPoint= this.previousAction.getNextPosition();
-                this.endPoint   = this.originPoint;
-                this.thickness  = this.previousAction.getThickness();
                 break;
         }
     }
     
     
     //**************************************************************************
-    // Functions
+    // Check Functions
     //**************************************************************************
     /**
      * Check if this action is running
@@ -142,32 +146,25 @@ public class Action implements Constants{
         return this.isDrawing;
     }
     
+    /**
+     * Check whether Action is used in the display mode
+     * @return true if used, otherwise, return false
+     */
+    public boolean isUsed(){
+        return this.isUsed;
+    }
+    
 
     //**************************************************************************
     // Getters - Setters
     //**************************************************************************
-    public Point getPosition(){
-        return this.originPoint;
-    }
+    public Point    getPosition(){          return this.originPoint;     }
+    public Point    getEndPosition(){       return this.endPoint;   }
+    public int      getAngle(){             return this.angle;  }
+    public String   getDescription(){       return this.description;}
+    public int      getThickness(){         return this.thickness;}
     
-    public Point getNextPosition(){
-        return this.endPoint;
-    }
     
-    public int getAngle(){
-        return this.angle;
-    }
-    
-    public String getDescription(){
-        return this.description;
-    }
-    
-    public int getThickness(){
-        return this.thickness;
-    }
-    
-    public void setIsRunning(boolean pValue){
-        this.isRunning = pValue;
-    }
-    
+    public void     setIsRunning(boolean pValue)    {this.isRunning = pValue;}
+    public void     setIsUsed(boolean pValue)       {this.isUsed = pValue;}
 }

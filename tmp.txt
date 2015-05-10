@@ -7,8 +7,13 @@ prog{
 	var toto;
 	toto = 1;
 	angle = 0;
+move 2;
+move 29;
+move 100;
+rotate 90;
+move 2;
 	
-	for(5){
+	for(4){
 	    move 50;
 		rotate 90;
 	}
