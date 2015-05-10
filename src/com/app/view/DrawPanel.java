@@ -44,6 +44,8 @@ public class DrawPanel extends ContentPanel{
     
     private void initComponents(){
         this.setLayout(new FlowLayout());
+        this.setBackground(Color.BLACK);
+        this.setOpaque(false);
     }
     
     @Override
@@ -55,6 +57,7 @@ public class DrawPanel extends ContentPanel{
         rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         g2d.setRenderingHints(rh);
         
+        g2d.setColor(Color.BLACK);
         ArrayList<ActionView> list = this.parent.getInstructionPanel().getListActionPanel();
         for(ActionView ap : list){
             ap.drawAction(g2d);

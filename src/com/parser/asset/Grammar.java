@@ -69,6 +69,5 @@ public abstract class Grammar{
      * Display the grammar rules
      * @return String displaying grammar rule used
      */
-    @Override
-    public abstract String toString();
+    public abstract String getDescription();
 }

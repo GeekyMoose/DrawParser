@@ -12,8 +12,13 @@ import com.exceptions.ForbiddenAction;
 import com.exceptions.ParserException;
 import com.main.DebugTrack;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
+import javax.swing.JPanel;
 
 
 
@@ -119,12 +124,29 @@ public class AppController implements Constants{
     public void loadFile() throws ForbiddenAction{
         String          txt     = new String();
         JFileChooser    chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new File("."));
+        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         chooser.setPreferredSize (new Dimension (500, 300));
         int             choice  = chooser.showOpenDialog(null);
         if (choice == JFileChooser.APPROVE_OPTION) {
             File    selection   = chooser.getSelectedFile();
             String  str         = Asset.getStrFromFile(selection);
             this.view.getCodePanel().setText(str);
+        }
+    }
+    
+    /**
+     * Take a picture of current Panel
+     */
+    public void takePicture(){
+        JPanel p = this.view.getDrawPanel();
+        BufferedImage img = new BufferedImage(p.getWidth(), p.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics g = img.createGraphics();
+        p.paint(g);
+        g.dispose();
+        try {
+            ImageIO.write(img, "png", new File("panel.png"));
+        } catch (IOException e) {
         }
     }
     

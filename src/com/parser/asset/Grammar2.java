@@ -17,11 +17,10 @@ import com.parser.instructions.asset.*;
  * extends Grammar
  * </p>
  * 
- * 
  * @date    May 8, 2015
  * @author  Constantin MASSON
  */
-public class Grammar1 extends Grammar{
+public class Grammar2 extends Grammar{
     //**************************************************************************
     // Functions from Grammar
     //**************************************************************************
@@ -139,6 +138,12 @@ public class Grammar1 extends Grammar{
             this.reader.eat(Sym.CONCAT);
             abs.addInstruction(new Assignment(varName, e));
         } 
+        else if(this.reader.check(Sym.FAT)){
+            this.reader.eat(Sym.FAT);
+            Expression e = this.expressions();
+            this.reader.eat(Sym.CONCAT);
+            abs.addInstruction(new Fat(e));
+        }
         else if(this.reader.check(Sym.IF)){
             this.ifInstruction(abs);
         } 
@@ -317,7 +322,8 @@ public class Grammar1 extends Grammar{
            this.reader.check(Sym.VAR_NAME) ||
            this.reader.check(Sym.IF) ||
            this.reader.check(Sym.WHILE) ||
-           this.reader.check(Sym.FOR))
+           this.reader.check(Sym.FOR) ||
+           this.reader.check(Sym.FAT))
         {
             return true;
         }
