@@ -14,25 +14,30 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.border.Border;
 
 
 /**
- * <h1>ActionPanel</h1>
+ * <h1>ActionView</h1>
  * <p>
- * public class ActionPanel<br/>
+ * public class ActionView<br/>
  * extends ContentPanel<br/>
  * implements MouseListener
  * </p>
  * <p>Display an action generated from file</p>
  * 
+ * 
  * @date    May 9, 2015
  * @author  Constantin MASSON
  */
-public class ActionPanel extends ContentPanel implements MouseListener{
+public class ActionView extends ContentPanel implements MouseListener{
     //**************************************************************************
     // Constants - Variables
     //**************************************************************************
@@ -40,30 +45,75 @@ public class ActionPanel extends ContentPanel implements MouseListener{
     private final Color     color_default   = Color.LIGHT_GRAY;
     private final Color     color_running   = Color.GREEN;
     
+    //Data
     private     Action      actionModel;
-    private     boolean     isHover;
+    
+    //Display
     private     JLabel      l_description;
+    private     JCheckBox   cb_isUsedBut;
+    
+    //Action button panel event
+    private     boolean     isHover;
+    private     Border      border_running;
+    private     Border      border_default;
+    private     Border      border_hover;
+    private     Border      border_notUsed;
     
     
     //**************************************************************************
     // Constructor - Initialization
     //**************************************************************************
-    public ActionPanel(Action pAction, Application pParent, AppController pController) throws AppError{
+    /**
+     * Create a new ActionView linked with Application given in parameter
+     * @param pAction       action model to display
+     * @param pParent       application parent
+     * @param pController   controller 
+     * @throws AppError thrown if unable to create Action view (Critical, controller null etc)
+     */
+    public ActionView(Action pAction, Application pParent, AppController pController) throws AppError{
         super(pParent, pController);
         this.actionModel    = pAction;
-        this.isHover        = false;
         this.setPreferredSize(Constants.DIM_ACTION_PANEL);
-        this.setBackground(color_default);
-        this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.BLACK));
         this.addMouseListener(this);
         this.initComponents();
     }
     
+    /*
+     * Init components
+     */
     private void initComponents(){
-        this.l_description = new JLabel(this.actionModel.getDescription());
-        this.setLayout(new BorderLayout());
-        this.add(this.l_description, BorderLayout.CENTER);
+        this.l_description  = new JLabel(this.actionModel.getDescription());
+        this.cb_isUsedBut   = new JCheckBox();
+        this.isHover        = false;
+        
+        this.cb_isUsedBut   .setSelected(true);
+        this.cb_isUsedBut   .setOpaque(false);
+        
+        //Set action for check button
+        this.cb_isUsedBut   .addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                if(cb_isUsedBut.isSelected()==true){
+                    controller.useAction(actionModel, true);
+                } else{
+                    controller.useAction(actionModel, false);
+                }
+            }
+        });
+        
+        //Create border
+        this.border_default = BorderFactory.createMatteBorder(2, 2, 2, 2, Color.BLACK);
+        this.border_hover   = BorderFactory.createMatteBorder(2, 2, 2, 2, Color.DARK_GRAY);
+        this.border_running = BorderFactory.createMatteBorder(2, 2, 2, 2, Color.GREEN);
+        this.border_notUsed = BorderFactory.createMatteBorder(2, 2, 2, 2, Color.LIGHT_GRAY);
+        
+        this    .setBackground(color_default);
+        this    .setLayout(new BorderLayout());
+        this    .setBorder(this.border_default);
+        this    .add(this.cb_isUsedBut, BorderLayout.EAST);
+        this    .add(this.l_description, BorderLayout.CENTER);
     }
+    
     
     //**************************************************************************
     // Functions 
@@ -73,6 +123,10 @@ public class ActionPanel extends ContentPanel implements MouseListener{
         super.paintComponent(g);
         if(this.isHover){
             this.setBackground(this.color_hover);
+        }
+        else if(this.actionModel.isUsed()==false){
+            this.setBackground(this.color_default);
+            this.setBorder(this.border_notUsed);
         }
         else if(this.actionModel.isRunning()){
             this.setBackground(this.color_running);
@@ -103,6 +157,7 @@ public class ActionPanel extends ContentPanel implements MouseListener{
 
     @Override
     public void mousePressed(MouseEvent e){
+        this.setBorder(this.border_running);
     }
 
     @Override
@@ -111,12 +166,14 @@ public class ActionPanel extends ContentPanel implements MouseListener{
 
     @Override
     public void mouseEntered(MouseEvent e){
+        this.setBorder(this.border_hover);
         this.isHover = true;
         this.repaint();
     }
 
     @Override
     public void mouseExited(MouseEvent e){
+        this.setBorder(this.border_default);
         this.isHover = false;
         this.repaint();
     }

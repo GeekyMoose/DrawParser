@@ -25,12 +25,10 @@ public abstract class Calculator {
     // Functions
     //**************************************************************************
     public static Point getNewPosition(Point currentPos, int pAngle, int pMove){
-        System.out.println("DEBUG calcul current : "+currentPos.toString());
         double angle = Math.toRadians(pAngle);
         Point p = new Point();
         p.x = (int)(currentPos.x + pMove * Math.sin(angle));
         p.y = (int)(currentPos.y + pMove * Math.cos(angle));
-        System.out.println("DEBUG calcul end : "+p.toString());
         return p;
     }
 }

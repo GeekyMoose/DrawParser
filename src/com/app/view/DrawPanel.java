@@ -6,7 +6,6 @@ package com.app.view;
 
 import com.app.data.AppController;
 import com.exceptions.AppError;
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -56,8 +55,8 @@ public class DrawPanel extends ContentPanel{
         rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         g2d.setRenderingHints(rh);
         
-        ArrayList<ActionPanel> list = this.parent.getInstructionPanel().getListActionPanel();
-        for(ActionPanel ap : list){
+        ArrayList<ActionView> list = this.parent.getInstructionPanel().getListActionPanel();
+        for(ActionView ap : list){
             ap.drawAction(g2d);
         }
     }

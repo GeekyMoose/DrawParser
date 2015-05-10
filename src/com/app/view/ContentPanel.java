@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 /**
  * <h1>ContentPanel</h1>
  * <p>
- * public class ContentPanel<br/>
+ * public abstract class ContentPanel<br/>
  * extends JPanel
  * </p>
  * <p>ContentPanel is a JPanel with a specific controller</p>
@@ -21,7 +21,7 @@ import javax.swing.JPanel;
  * @date    May 9, 2015
  * @author  Constantin MASSON
  */
-public class ContentPanel extends JPanel{
+public abstract class ContentPanel extends JPanel{
     protected   AppController   controller;
     protected   Application     parent;
     

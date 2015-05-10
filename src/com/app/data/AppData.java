@@ -36,6 +36,8 @@ public class AppData {
     private     Parser              parser;
     private     ArrayList<Action>   listActions;
     
+    private     ValueEnvironment    env; //Current variable environment
+    
 
     //**************************************************************************
     // Constructor - Initialization
@@ -47,11 +49,12 @@ public class AppData {
         this.grammer        = new Grammar1();
         this.parser         = new Parser(grammer);
         this.listActions    = new ArrayList();
+        this.env            = new ValueEnvironment();
     }
     
 
     //**************************************************************************
-    // Functions
+    // Parser Functions
     //**************************************************************************
     /**
      * 
@@ -62,13 +65,26 @@ public class AppData {
      * @throws AppError         thrown if critical program error
      */
     public void runParser(File pFile) throws ForbiddenAction, ParserException, AppError, ExecError{
-        AbstractSyntax abs = this.parser.startParser(Parser.MODE_GENERAL, pFile);
-        abs.exec(new ValueEnvironment());
+        this.env            = new ValueEnvironment();
+        AbstractSyntax abs  = this.parser.startParser(Parser.MODE_GENERAL, pFile);
+        abs.exec(this.env);
         ArrayList<ActionInstruction> list = abs.getActionsInstruction();
         DebugTrack.showActionInstructions(list);
         this.createListeAction(list);
     }
     
+    public void runInterpreterParser(File pFile) 
+    throws ForbiddenAction, ParserException, ExecError, AppError{
+        AbstractSyntax abs  = this.parser.startParser(Parser.MODE_INTERPRETER, pFile);
+        abs.exec(this.env);
+        ArrayList<ActionInstruction> list = abs.getActionsInstruction();
+        DebugTrack.showActionInstructions(list);
+    }
+    
+
+    //**************************************************************************
+    // Actions Functions
+    //**************************************************************************
     /**
      * Create a list of action from ActionInstruction 
      * @param pList ArrayList with all ActionInstruction to process
@@ -101,6 +117,20 @@ public class AppData {
             if(a == pAction){
                 actionReached = true;
             }
+        }
+    }
+    
+    /**
+     * Change used mode of an action. then Recalculate all position 
+     * @param pAction       action to modify
+     * @param pIsUsed       used value (True or false)
+     */
+    public void useAction(Action pAction, boolean pIsUsed){
+        for(Action a : this.listActions){
+            if(a == pAction){
+                a.setIsUsed(pIsUsed);
+            }
+            a.calculate(); //Recalculate value after modif
         }
     }
     

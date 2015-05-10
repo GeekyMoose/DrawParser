@@ -5,12 +5,12 @@
 package com.app.view;
 
 import com.app.data.AppController;
+import com.app.data.Asset;
 import com.app.data.Constants;
 import com.exceptions.AppError;
 import com.exceptions.ExecError;
 import com.exceptions.ForbiddenAction;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.KeyEvent;
@@ -19,7 +19,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -69,13 +68,15 @@ public class CodePanel extends ContentPanel implements Constants{
     public CodePanel(Application pParent, AppController pController) throws AppError{
         super(pParent, pController);
         this.setPreferredSize(DIM_CODE_PANEL);
-        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         this.initComponents();
         this.updateNbChar();
         this.updateNbLines();
         this.setKeyActions();
     }
     
+    /*
+     * Initialize all components as wrapper / title etc
+     */
     private void initComponents(){
         this.wrapper        = new JPanel();
         this.text           = new JTextArea();
@@ -101,9 +102,9 @@ public class CodePanel extends ContentPanel implements Constants{
         this.wrap_data      .add(this.l_nbLines);
         this.wrap_data      .add(this.l_titleNbChar);
         this.wrap_data      .add(this.l_nbChar);
-        this.wrapper        .add(this.wrap_data, BorderLayout.SOUTH);
-        this.wrapper        .add(this.scroll, BorderLayout.CENTER);
-        this                .add(this.wrapper, BorderLayout.CENTER);
+        this.wrapper        .add(this.wrap_data,BorderLayout.SOUTH);
+        this.wrapper        .add(this.scroll,   BorderLayout.CENTER);
+        this                .add(this.wrapper,  BorderLayout.CENTER);
     }
     
     /**
@@ -144,21 +145,7 @@ public class CodePanel extends ContentPanel implements Constants{
      * @throws ForbiddenAction throw if not valid name
      */
     public File createFile(String pPath) throws ExecError, ForbiddenAction{
-        if(pPath == null){
-            throw new ForbiddenAction("Unable to create file, not valid name");
-        }
-        File file = new File(pPath);
-        BufferedWriter out;
-        try {
-            out = new BufferedWriter(new FileWriter(file));
-            this.text.write(out);
-            out.flush();
-            out.close();
-        } catch(IOException ex) {
-            file.delete();
-            throw new ExecError("Unable to create file");
-        }
-        return file;
+        return Asset.getFileFromJTextComp(pPath, this.text);
     }
     
     
@@ -198,8 +185,8 @@ public class CodePanel extends ContentPanel implements Constants{
     public boolean setText(String pStr){
         if(pStr != null){
             this.text.setText(pStr);
-        this.updateNbChar();
-        this.updateNbLines();
+            this.updateNbChar();
+            this.updateNbLines();
             return true;
         }
         return false;
