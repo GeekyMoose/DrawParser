@@ -72,11 +72,16 @@ public class AppData {
     /**
      * Create a list of action from ActionInstruction 
      * @param pList ArrayList with all ActionInstruction to process
+     * @throws AppError
      */
-    public void createListeAction(ArrayList<ActionInstruction> pList){
-        this.listActions = new ArrayList();
+    public void createListeAction(ArrayList<ActionInstruction> pList) throws AppError{
+        this.listActions    = new ArrayList();
+        Action previous     = new Action();//Create the origin
+        this.listActions.add(previous);
         for(ActionInstruction i : pList){
-            this.listActions.add(new Action(i));
+            Action a = new Action(i, previous, Action.ORIGNAL);
+            this.listActions.add(a);
+            previous = a;
         }
     }
     
@@ -87,6 +92,7 @@ public class AppData {
     public void runAction(Action pAction){
         boolean actionReached = false;
         for(Action a : this.listActions){
+            a.calculate();
             if(actionReached == false){
                 a.setIsRunning(true);
             } else{

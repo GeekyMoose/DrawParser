@@ -18,9 +18,9 @@ import com.parser.instructions.asset.Instruction;
  */
 public abstract class ActionInstruction extends Instruction{
     public static final int ACTION_UP       = 0;
-    public static final int ACTION_DOWN     = 0;
-    public static final int ACTION_MOVE     = 0;
-    public static final int ACTION_ROTATE   = 0;
+    public static final int ACTION_DOWN     = 1;
+    public static final int ACTION_MOVE     = 2;
+    public static final int ACTION_ROTATE   = 3;
     
     /**
      * Get a short description of the action

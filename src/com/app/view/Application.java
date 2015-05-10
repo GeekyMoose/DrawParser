@@ -67,10 +67,10 @@ public class Application extends JFrame{
      */
     private void initComponents() throws AppError{
         this.headBar            = new HeadBar(this, this.controller);
+        this.instructionsPanel  = new InstructionsPanel(this, this.controller);
         this.drawPanel          = new DrawPanel(this, this.controller);
         this.codePanel          = new CodePanel(this, this.controller);
         this.consolPanel        = new ConsolPanel(this, this.controller);
-        this.instructionsPanel  = new InstructionsPanel(this, this.controller);
         
         this.wrap_dataPanel     = new JPanel();
         this.wrap_center        = new JPanel();

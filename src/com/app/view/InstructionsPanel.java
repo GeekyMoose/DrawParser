@@ -13,10 +13,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -93,90 +95,16 @@ public class InstructionsPanel extends ContentPanel implements Constants{
         this.wrapper.revalidate();
         this.repaint();
     }
-}
-
-
-/**
- * <h1>ActionPanel</h1>
- * <p>
- * class ActionPanel<br/>
- * extends ContentPanel
- * </p>
- * <p>Display an action generated from file</p>
- * 
- * @date    May 9, 2015
- * @author  Constantin MASSON
- */
-class ActionPanel extends ContentPanel implements MouseListener{
-    //**************************************************************************
-    // Constants - Variables
-    //**************************************************************************
-    private final Color     color_hover     = Color.GRAY;
-    private final Color     color_default   = Color.LIGHT_GRAY;
-    private final Color     color_running   = Color.GREEN;
-    
-    private     Color       color_current;
-    private     Action      actionModel;
-    private     boolean     isHover;
     
     
     //**************************************************************************
-    // Constructor - Initialization
+    // Getters - Setters
     //**************************************************************************
-    public ActionPanel(Action pAction, Application pParent, AppController pController) throws AppError{
-        super(pParent, pController);
-        this.actionModel    = pAction;
-        this.isHover        = false;
-        this.setPreferredSize(Constants.DIM_ACTION_PANEL);
-        this.setBackground(color_default);
-        this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.BLACK));
-        this.addMouseListener(this);
-    }
-    
-    
-    //**************************************************************************
-    // Functions 
-    //**************************************************************************
-    @Override
-    public void paintComponent(Graphics g){
-        super.paintComponent(g);
-        if(this.isHover){
-            this.setBackground(this.color_hover);
-        }
-        else if(this.actionModel.isRunning()){
-            this.setBackground(this.color_running);
-        }
-        else{
-            this.setBackground(this.color_default);
-        }
-    }
-    
-    
-    //**************************************************************************
-    // Functions MouseListener
-    //**************************************************************************
-    @Override
-    public void mouseClicked(MouseEvent e){
-        controller.runAction(this.actionModel);
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e){
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e){
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e){
-        this.isHover = true;
-        this.repaint();
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e){
-        this.isHover = false;
-        this.repaint();
+    /**
+     * Return list of action panel
+     * @return ArrayList of ActionPanel
+     */
+    public ArrayList<ActionPanel> getListActionPanel(){
+        return this.listActions;
     }
 }

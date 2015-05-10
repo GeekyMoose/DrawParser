@@ -85,6 +85,7 @@ public class AppController implements Constants{
         DebugTrack.showDebugMsg("Tmp file created : "+f.getAbsolutePath());
         this.model.runParser(f);
         this.view.getInstructionPanel().createActionPanel(this.model.getListActions());
+        this.view.repaint();
     }
     
     /**

@@ -30,4 +30,7 @@ public interface Constants {
     //**************************************************************************
     public static final String      DEFAULT_TMP_FILE    = "tmp.txt";
     public static final Point       DEFAULT_POSITION    = new Point(0,0);
+    public static final int         DEFAULT_ANGLE       = 0;
+    public static final boolean     DEFAULT_IS_DRAWING  = true;
+    public static final int         DEFAULT_THICKNESS   = 2;
 }
