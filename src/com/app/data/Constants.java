@@ -4,6 +4,7 @@
  */
 package com.app.data;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 
@@ -42,5 +43,5 @@ public interface Constants {
     public static final Point       DEFAULT_POSITION    = new Point(0,0);
     public static final int         DEFAULT_ANGLE       = 0;
     public static final boolean     DEFAULT_IS_DRAWING  = false;
-    public static final int         DEFAULT_THICKNESS   = 2;
+    public static final int         DEFAULT_THICKNESS   = 4;
 }

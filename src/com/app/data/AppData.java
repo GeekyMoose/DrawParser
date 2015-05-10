@@ -35,7 +35,6 @@ public class AppData {
     private     Grammar             grammer;
     private     Parser              parser;
     private     ArrayList<Action>   listActions;
-    
     private     ValueEnvironment    env; //Current variable environment
     
 
@@ -65,7 +64,7 @@ public class AppData {
      * @throws AppError         thrown if critical program error
      */
     public void runParser(File pFile) throws ForbiddenAction, ParserException, AppError, ExecError{
-        this.env            = new ValueEnvironment();
+        this.env            = new ValueEnvironment(); //Reset env
         AbstractSyntax abs  = this.parser.startParser(Parser.MODE_GENERAL, pFile);
         abs.exec(this.env);
         ArrayList<ActionInstruction> list = abs.getActionsInstruction();
@@ -79,6 +78,7 @@ public class AppData {
         abs.exec(this.env);
         ArrayList<ActionInstruction> list = abs.getActionsInstruction();
         DebugTrack.showActionInstructions(list);
+        this.addActions(list);
     }
     
 
@@ -98,6 +98,28 @@ public class AppData {
             Action a = new Action(i, previous, Action.ORIGNAL);
             this.listActions.add(a);
             previous = a;
+        }
+    }
+    
+    /**
+     * Add action at the end of current list of action. If current list of 
+     * action is empty, addActions create a new list with from the list 
+     * given in parameter
+     * @param pList list of ActionInstruction to add (Or set if current is empty)
+     * @throws AppError thrown is error during creation
+     */
+    public void addActions(ArrayList<ActionInstruction> pList) throws AppError{
+        //Current list is empty, action to ad is the first one
+        if(this.listActions == null || this.listActions.isEmpty()){
+            this.createListeAction(pList);
+        }
+        else{
+            Action previous = this.listActions.get(this.listActions.size()-1); //Last current
+            for(ActionInstruction i: pList){
+                Action a = new Action(i, previous, Action.INTERPRETER);
+                this.listActions.add(a);
+                previous = a;
+            }
         }
     }
     

@@ -5,17 +5,17 @@
 package com.app.view;
 
 import com.app.data.AppController;
-import com.app.data.Asset;
 import com.app.data.Constants;
 import com.exceptions.AppError;
 import com.exceptions.ExecError;
 import com.exceptions.ForbiddenAction;
+import com.exceptions.ParserException;
+import com.main.DebugTrack;
+import com.main.UiDialog;
 import java.awt.BorderLayout;
 import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -97,10 +97,31 @@ public class ConsolPanel extends ContentPanel implements Constants{
                 public void keyPressed(KeyEvent e) {
                     int key = e.getKeyCode();
                     if (key == KeyEvent.VK_ENTER) {
-                        String cmd = command.getText();
-                        controller.runInterpreterModeParser(cmd);
-                        command.setText("");
-                        writeConsol(cmd);
+                        try {
+                            String cmd = command.getText();
+                            command.setText("");
+                            writeConsol(cmd);
+                            controller.runInterpreterModeParser(cmd);
+                            parent.getHeadBar().updateTextState(true, "Valid!!");
+                        }
+                        catch(ExecError ex) {
+                            parent.getHeadBar().updateTextState(false, "Not Valid!!");
+                            DebugTrack.showErrMsg(ex.getMessage());
+                            UiDialog.showError("Error", ex.getMessage());
+                        } 
+                        catch(ForbiddenAction ex) {
+                            parent.getHeadBar().updateTextState(false, "Not Valid!!");
+                            DebugTrack.showErrMsg(ex.getMessage());
+                            UiDialog.showWarning("Warning", ex.getMessage());
+                        } 
+                        catch(ParserException ex) {
+                            parent.getHeadBar().updateTextState(false, "Not Valid!!");
+                            UiDialog.showWarning("Warning", ex.getMessage());
+                        } 
+                        catch(AppError ex) {
+                            parent.getHeadBar().updateTextState(false, "Not Valid!!");
+                            UiDialog.showError("Warning", ex.getMessage());
+                        }
                     }
                 }
 
