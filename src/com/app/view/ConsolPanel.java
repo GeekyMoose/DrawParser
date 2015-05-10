@@ -102,24 +102,29 @@ public class ConsolPanel extends ContentPanel implements Constants{
                             command.setText("");
                             writeConsol(cmd);
                             controller.runInterpreterModeParser(cmd);
-                            parent.getHeadBar().updateTextState(true, "Valid!!");
+                            HeadBar hb = parent.getHeadBar();
+                            hb.displayTmpInfoMsg(HeadBar.MSG_VALID, DELAY_TXT_VALID, "Valid command");
                         }
-                        catch(ExecError ex) {
-                            parent.getHeadBar().updateTextState(false, "Not Valid!!");
-                            DebugTrack.showErrMsg(ex.getMessage());
-                            UiDialog.showError("Error", ex.getMessage());
+                        catch(ParserException ex) {
+                            HeadBar hb = parent.getHeadBar();
+                            hb.displayTmpInfoMsg(HeadBar.MSG_WARNING, DELAY_TXT_WARNING, "Wrong command");
+                            UiDialog.showWarning("Warning", ex.getMessage());
                         } 
                         catch(ForbiddenAction ex) {
-                            parent.getHeadBar().updateTextState(false, "Not Valid!!");
+                            HeadBar hb = parent.getHeadBar();
+                            hb.displayTmpInfoMsg(HeadBar.MSG_WARNING, DELAY_TXT_WARNING, "Forbidden action");
                             DebugTrack.showErrMsg(ex.getMessage());
                             UiDialog.showWarning("Warning", ex.getMessage());
-                        } 
-                        catch(ParserException ex) {
-                            parent.getHeadBar().updateTextState(false, "Not Valid!!");
-                            UiDialog.showWarning("Warning", ex.getMessage());
-                        } 
+                        }
+                        catch(ExecError ex) {
+                            HeadBar hb = parent.getHeadBar();
+                            hb.displayTmpInfoMsg(HeadBar.MSG_ERROR, DELAY_TXT_ERROR, "Error");
+                            DebugTrack.showErrMsg(ex.getMessage());
+                            UiDialog.showError("Error", ex.getMessage());
+                        }
                         catch(AppError ex) {
-                            parent.getHeadBar().updateTextState(false, "Not Valid!!");
+                            HeadBar hb = parent.getHeadBar();
+                            hb.displayTmpInfoMsg(HeadBar.MSG_ERROR, DELAY_TXT_ERROR, "Crit error");
                             UiDialog.showError("Warning", ex.getMessage());
                         }
                     }

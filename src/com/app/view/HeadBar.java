@@ -17,11 +17,12 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 
 
@@ -40,14 +41,21 @@ public class HeadBar extends ContentPanel implements Constants{
     //**************************************************************************
     // Constants - Variables
     //**************************************************************************
-    private JPanel      wrapper_button;
-    private JButton     butt_run;
-    private JButton     butt_load;
-    private JButton     butt_print;
+    public  static final int    MSG_INFO            = 0;
+    public  static final int    MSG_WARNING         = 1;
+    public  static final int    MSG_ERROR           = 2;
+    public  static final int    MSG_VALID           = 3;
     
-    private JPanel      wrapper_data;
-    private JPanel      wrapper_state;
-    private JLabel      l_txtState;
+    private JPanel              wrapper_button;
+    private JButton             butt_run;
+    private JButton             butt_load;
+    private JButton             butt_print;
+    
+    private JPanel              wrapper_data;
+    private JPanel              wrapper_state;
+    private JLabel              l_infoMsg;
+    
+    private Timer               breakTimer;
     
     
     //**************************************************************************
@@ -64,6 +72,7 @@ public class HeadBar extends ContentPanel implements Constants{
         this.setPreferredSize(DIM_HEAD_BAR); //Width = application width
         this.initComponents();
         this.setButtonActions();
+        this.setTimer();
     }
     
     private void initComponents(){
@@ -73,7 +82,7 @@ public class HeadBar extends ContentPanel implements Constants{
         this.butt_print         = new JButton("Print");
         this.wrapper_data       = new JPanel();
         this.wrapper_state      = new JPanel();
-        this.l_txtState         = new JLabel();
+        this.l_infoMsg          = new JLabel();
         
         this.wrapper_button     .setLayout(new FlowLayout());
         this.wrapper_data       .setLayout(new BorderLayout());
@@ -87,10 +96,19 @@ public class HeadBar extends ContentPanel implements Constants{
         this.wrapper_button     .add(this.butt_run);
         this.wrapper_button     .add(this.butt_load);
         this.wrapper_button     .add(this.butt_print);
-        this.wrapper_state      .add(this.l_txtState);
+        this.wrapper_state      .add(this.l_infoMsg);
         this.wrapper_data       .add(this.wrapper_state, BorderLayout.CENTER);
         this                    .add(this.wrapper_data, BorderLayout.WEST);
         this                    .add(this.wrapper_button, BorderLayout.CENTER);
+    }
+    
+    private void setTimer(){
+        this.breakTimer = new Timer(DELAY_TMP_TXT, new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                resetTextState();
+            }
+        });
     }
     
     /*
@@ -102,8 +120,10 @@ public class HeadBar extends ContentPanel implements Constants{
             public void actionPerformed(ActionEvent e){
                 try {
                     controller.loadFile();
+                    displayTmpInfoMsg(HeadBar.MSG_INFO, DELAY_TXT_INFO, "File loaded");
                 } catch(ForbiddenAction ex) {
                     DebugTrack.showErrMsg(ex.getMessage());
+                    displayTmpInfoMsg(HeadBar.ERROR, DELAY_TXT_ERROR, "Unable to load file");
                     UiDialog.showError("Error", ex.getMessage());
                 }
             }
@@ -116,24 +136,24 @@ public class HeadBar extends ContentPanel implements Constants{
                 try {
                     controller.runGeneralModeParser();
                     isValidText = true;
-                    updateTextState(true, "Valid!");
-                } 
-                catch(ExecError ex) {
-                    updateTextState(false, "Not Valid!!");
-                    DebugTrack.showErrMsg(ex.getMessage());
-                    UiDialog.showError("Error", ex.getMessage());
+                    displayTmpInfoMsg(HeadBar.MSG_VALID, DELAY_TXT_VALID, "Text is valid");
                 } 
                 catch(ForbiddenAction ex) {
-                    updateTextState(false, "Not Valid!!");
+                    displayTmpInfoMsg(HeadBar.MSG_WARNING, DELAY_TXT_WARNING, "Forbidden action");
                     DebugTrack.showErrMsg(ex.getMessage());
                     UiDialog.showWarning("Warning", ex.getMessage());
                 } 
                 catch(ParserException ex) {
-                    updateTextState(false, "Not Valid!!");
+                    displayTmpInfoMsg(HeadBar.MSG_WARNING, DELAY_TXT_WARNING, "Text is not valid");
                     UiDialog.showWarning("Warning", ex.getMessage());
                 } 
+                catch(ExecError ex) {
+                    displayTmpInfoMsg(HeadBar.MSG_ERROR, DELAY_TXT_ERROR, "Error");
+                    DebugTrack.showErrMsg(ex.getMessage());
+                    UiDialog.showError("Error", ex.getMessage());
+                } 
                 catch(AppError ex) {
-                    updateTextState(false, "Not Valid!!");
+                    displayTmpInfoMsg(HeadBar.MSG_ERROR, DELAY_TXT_ERROR, "Critical error");
                     UiDialog.showError("Warning", ex.getMessage());
                 }
             }
@@ -148,7 +168,6 @@ public class HeadBar extends ContentPanel implements Constants{
     }
     
     
-    
     //**************************************************************************
     // Constructor - Initialization
     //**************************************************************************
@@ -156,17 +175,45 @@ public class HeadBar extends ContentPanel implements Constants{
      * Update the text displayed about text state (Valid or not valid etc). 
      * boolean given set if state is valid or not. String given will be displayed 
      * on the text state panel
-     * @param pIsValid  true if valid, otherwise, false
-     * @param pStr      string to display
+     * 
+     * Display a special message in infoMsg screen. Message is displayed temporary. 
+     * After time reached (given in parameter), this msg is deleted and 
+     * default is displayed.
+     * @param pMsgType      kind of message, change background displayed
+     * @param pDisplayTime  time till message is lost
+     * @param pStr          string to display
      */
-    public void updateTextState(boolean pIsValid, String pStr){
-        if(pIsValid==true){
-            this.wrapper_state.setBackground(Color.GREEN);
-            this.l_txtState.setText(pStr);
-        } 
-        else{
-            this.wrapper_state.setBackground(Color.RED);
-            this.l_txtState.setText(pStr);
+    public void displayTmpInfoMsg(int pMsgType, Integer pDisplayTime, String pStr){
+        this.breakTimer.stop(); //If one already running
+        this.breakTimer.setDelay(pDisplayTime);
+        switch(pMsgType){
+            case HeadBar.MSG_INFO:
+                this.wrapper_state.setBackground(Color.YELLOW);
+                break;
+                
+            case HeadBar.MSG_ERROR:
+                this.wrapper_state.setBackground(Color.RED);
+                break;
+                
+            case HeadBar.MSG_WARNING:
+                this.wrapper_state.setBackground(Color.ORANGE);
+                break;
+                
+            case HeadBar.MSG_VALID:
+                this.wrapper_state.setBackground(Color.GREEN);
+                break;
         }
+        this.l_infoMsg.setText(pStr);
+        this.breakTimer.start();
+    }
+    
+    /**
+     * Reset message displayed
+     */
+    public void resetTextState( ){
+        this.wrapper_state.setBackground(Color.WHITE);
+        this.l_infoMsg.setText(DEFAULT_MSG);
+        this.breakTimer.stop();
+        this.repaint();
     }
 }

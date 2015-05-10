@@ -35,9 +35,20 @@ public interface Constants {
     
     
     //**************************************************************************
-    //Default setting
+    // Delay
+    //**************************************************************************
+    public static final int         DELAY_TMP_TXT       = 3000;
+    public static final int         DELAY_TXT_INFO      = 3000;
+    public static final int         DELAY_TXT_ERROR     = 3000;
+    public static final int         DELAY_TXT_WARNING   = 3000;
+    public static final int         DELAY_TXT_VALID     = 3000;
+    
+    
+    //**************************************************************************
+    // Default setting
     //**************************************************************************
     public static final String      DEFAULT_TMP_FILE    = "data/tmp.txt";
+    public static final String      DEFAULT_MSG         = "...";
     
     public static final Point       DEFAULT_POSITION    = new Point(0,0);
     public static final int         DEFAULT_ANGLE       = 0;
