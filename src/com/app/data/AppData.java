@@ -32,8 +32,9 @@ public class AppData {
     //**************************************************************************
     // Constants - Variables
     //**************************************************************************
-    private     Grammar     grammer;
-    private     Parser      parser;
+    private     Grammar             grammer;
+    private     Parser              parser;
+    private     ArrayList<Action>   listActions;
     
 
     //**************************************************************************
@@ -43,8 +44,9 @@ public class AppData {
      * Create a new AppData with default grammar and parser
      */
     public AppData(){
-        this.grammer    = new Grammar1();
-        this.parser     = new Parser(grammer);
+        this.grammer        = new Grammar1();
+        this.parser         = new Parser(grammer);
+        this.listActions    = new ArrayList();
     }
     
 
@@ -64,10 +66,47 @@ public class AppData {
         abs.exec(new ValueEnvironment());
         ArrayList<ActionInstruction> list = abs.getActionsInstruction();
         DebugTrack.showActionInstructions(list);
+        this.createListeAction(list);
+    }
+    
+    /**
+     * Create a list of action from ActionInstruction 
+     * @param pList ArrayList with all ActionInstruction to process
+     */
+    public void createListeAction(ArrayList<ActionInstruction> pList){
+        this.listActions = new ArrayList();
+        for(ActionInstruction i : pList){
+            this.listActions.add(new Action(i));
+        }
+    }
+    
+    /**
+     * Run all action before pAction given in parameter (pAction included)
+     * @param pAction last action to run
+     */
+    public void runAction(Action pAction){
+        boolean actionReached = false;
+        for(Action a : this.listActions){
+            if(actionReached == false){
+                a.setIsRunning(true);
+            } else{
+                a.setIsRunning(false);
+            }
+            if(a == pAction){
+                actionReached = true;
+            }
+        }
     }
     
     
     //**************************************************************************
     // Getters - Setters
     //**************************************************************************
+    /**
+     * Return current list of actions
+     * @return ArrayList of Action
+     */
+    public ArrayList<Action> getListActions(){
+        return this.listActions;
+    }
 }

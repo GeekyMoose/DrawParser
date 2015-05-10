@@ -117,4 +117,12 @@ public class Application extends JFrame{
     public CodePanel getCodePanel(){
         return this.codePanel;
     }
+    
+    /**
+     * Return application Instruction Panel
+     * @return InstructionsPanel of this application
+     */
+    public InstructionsPanel getInstructionPanel(){
+        return this.instructionsPanel;
+    }
 }

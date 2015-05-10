@@ -62,6 +62,7 @@ public class Move extends ActionInstruction{
     //**************************************************************************
     // Getters - Setters
     //**************************************************************************
+    @Override
     public int getValue(){
         return this.distance;
     }
@@ -74,5 +75,10 @@ public class Move extends ActionInstruction{
     @Override
     public Instruction getCopy(){
         return new Move(this.exp, this.distance);
+    }
+    
+    @Override
+    public int getTypeAction(){
+        return ACTION_MOVE;
     }
 }

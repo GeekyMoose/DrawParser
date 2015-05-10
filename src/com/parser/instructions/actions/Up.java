@@ -58,4 +58,14 @@ public class Up extends ActionInstruction{
     public String getDescription(){
         return "Up";
     }
+    
+    @Override
+    public int getTypeAction(){
+        return ACTION_UP;
+    }
+
+    @Override
+    public int getValue(){
+        return ACTION_UP;
+    }
 }

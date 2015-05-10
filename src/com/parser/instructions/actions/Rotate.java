@@ -62,6 +62,7 @@ public class Rotate extends ActionInstruction{
     //**************************************************************************
     // Getters - Setters
     //**************************************************************************
+    @Override
     public int getValue(){
         return this.angle;
     }
@@ -74,5 +75,10 @@ public class Rotate extends ActionInstruction{
     @Override
     public Instruction getCopy(){
         return new Rotate(this.exp, this.angle);
+    }
+    
+    @Override
+    public int getTypeAction(){
+        return ACTION_ROTATE;
     }
 }

@@ -5,6 +5,7 @@
 
 package com.app.data;
 
+import com.parser.instructions.actions.ActionInstruction;
 import java.awt.Point;
 
 
@@ -24,43 +25,56 @@ public class Action {
     private static final int    DELETED     = 1;
     private static final int    ADDED       = 2;
     
+    private ActionInstruction   instruction;
+    private boolean             isRunning;
+    
+    
+    
     private int     state;
     private boolean movable;
-    private boolean isSelected;
+    private int     actionType;
     
-    private Action  nextAction;
-    private Point   origin;
+    private Action  previousAction;
     private int     angle;
-    
-    
-    
+    private Point   origin;
     
     
 
     //**************************************************************************
     // Constructor - Initialization
     //**************************************************************************
-    public Action(int pState){
+    public Action(ActionInstruction pInst){
+        this.instruction = pInst;
         this.movable    = false;
-        this.state      = pState;
-        this.origin     = new Point(0, 0);
+        this.state      = 0;
+        this.isRunning = true;
     }
     
     
-    
-    
-    
-
     //**************************************************************************
     // Functions
     //**************************************************************************
-    
-    
-    
-    
+    /**
+     * Check if this action is running
+     * @return true if running, otherwise, return false
+     */
+    public boolean isRunning(){
+        return this.isRunning;
+    }
     
 
     //**************************************************************************
     // Getters - Setters
     //**************************************************************************
+    public Point getPosition(){
+        return this.origin;
+    }
+    
+    public int getAngle(){
+        return this.angle;
+    }
+    
+    public void setIsRunning(boolean pValue){
+        this.isRunning = pValue;
+    }
 }
