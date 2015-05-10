@@ -128,6 +128,14 @@ public class Application extends JFrame implements Constants{
     }
     
     /**
+     * Return Application HeadBar
+     * @return HeadBar
+     */
+    public HeadBar getHeadBar(){
+        return this.headBar;
+    }
+    
+    /**
      * Return application Instruction Panel
      * @return InstructionsPanel of this application
      */

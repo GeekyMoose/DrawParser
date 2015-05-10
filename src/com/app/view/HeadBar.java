@@ -117,7 +117,6 @@ public class HeadBar extends ContentPanel implements Constants{
                     controller.runGeneralModeParser();
                     isValidText = true;
                     updateTextState(true, "Valid!");
-                    UiDialog.showInfoDialog("Valid", "Text is valid");
                 } 
                 catch(ExecError ex) {
                     updateTextState(false, "Not Valid!!");

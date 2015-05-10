@@ -32,9 +32,7 @@ public class Action implements Constants{
     // Constants - Variables
     //**************************************************************************
     public static final int     ORIGNAL         = 0;
-    public static final int     ORI_DELETED     = 1;
-    public static final int     ADD_DELETED     = 2;
-    public static final int     ADDED           = 3;
+    public static final int     INTERPRETER     = 1;
     
     private Action              previousAction;
     private ActionInstruction   instruction;
@@ -45,7 +43,6 @@ public class Action implements Constants{
     private int                 angle; //Angle in degre, 0 is vertical bottom direction
     private int                 state;
     private int                 thickness;
-    private int                 color;
     
     private boolean             isUsed;     //User can temporary delete an action
     private boolean             isRunning;
@@ -58,7 +55,8 @@ public class Action implements Constants{
     // Constructor - Initialization
     //**************************************************************************
     /**
-     * Create an original action, it is the starting position
+     * Create an original action, it is the starting position 
+     * 
      */
     public Action(){
         this.originPoint    = DEFAULT_POSITION;

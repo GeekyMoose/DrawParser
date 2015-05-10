@@ -13,8 +13,6 @@ import com.exceptions.ParserException;
 import com.main.DebugTrack;
 import java.awt.Dimension;
 import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
 
@@ -77,15 +75,18 @@ public class AppController implements Constants{
     /**
      * Run parser with interpreter mode.
      * @param pStr String to process 
+     * @throws ParserException  thrown if string given is not valid
+     * @throws ForbiddenAction  thrown whether no grammar set
+     * @throws ExecError        thrown if unable to load file (Wrong path etc)
+     * @throws AppError         thrown if critical program error
      */
-    public void runInterpreterModeParser(String pStr) {
-        try {
-            File f = Asset.getFileFromStr(pStr, DEFAULT_TMP_FILE);
-            DebugTrack.showDebugMsg("Tmp file created : "+f.getAbsolutePath());
-            this.model.runInterpreterParser(f);
-        } catch(ForbiddenAction | ParserException | ExecError | AppError ex) {
-            
-        }
+    public void runInterpreterModeParser(String pStr) 
+    throws ForbiddenAction, ParserException, ExecError, AppError {
+        File f = Asset.getFileFromStr(pStr, DEFAULT_TMP_FILE);
+        DebugTrack.showDebugMsg("Tmp file created : "+f.getAbsolutePath());
+        this.model.runInterpreterParser(f);
+        this.view.getInstructionPanel().createActionPanel(this.model.getListActions());
+        this.view.repaint();
     }
     
     /**

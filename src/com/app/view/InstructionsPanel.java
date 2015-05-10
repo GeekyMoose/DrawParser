@@ -83,7 +83,7 @@ public class InstructionsPanel extends ContentPanel implements Constants{
             this.wrapper.add(action);
         }
         Dimension   dim = new Dimension(DIM_ACTION_PANEL.width, 
-                                        DIM_ACTION_PANEL.height*pList.size());
+                                        (DIM_ACTION_PANEL.height+10)*pList.size());
         this.wrapper.setPreferredSize(dim);
         this.wrapper.revalidate();
         this.repaint();

@@ -136,9 +136,15 @@ public class ActionView extends ContentPanel implements MouseListener{
         }
     }
     
+    /**
+     * Draw the action view
+     * @param g2d 
+     */
     public void drawAction(Graphics2D g2d){
         if(this.actionModel.isDrawing() && this.actionModel.isRunning()){
-            BasicStroke bs1 = new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL);
+            BasicStroke bs1 = new BasicStroke(this.actionModel.getThickness(), 
+                    BasicStroke.CAP_ROUND, 
+                    BasicStroke.JOIN_BEVEL);
             g2d.setStroke(bs1);
             Point p1 = this.actionModel.getPosition();
             Point p2 = this.actionModel.getEndPosition();
