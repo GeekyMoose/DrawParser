@@ -11,16 +11,11 @@ import com.exceptions.ExecError;
 import com.exceptions.ForbiddenAction;
 import com.exceptions.ParserException;
 import com.main.DebugTrack;
-import com.main.UiDialog;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 
 
@@ -89,7 +84,7 @@ public class AppController implements Constants{
      */
     public void runInterpreterModeParser(String pStr) 
     throws ForbiddenAction, ParserException, ExecError, AppError {
-        File f = Asset.getFileFromStr(pStr, DEFAULT_TMP_FILE);
+        File f = FileManagement.getFileFromStr(pStr, DEFAULT_TMP_FILE);
         DebugTrack.showDebugMsg("Tmp file created : "+f.getAbsolutePath());
         this.model.runInterpreterParser(f);
         this.view.getInstructionPanel().createActionPanel(this.model.getListActions());
@@ -117,53 +112,27 @@ public class AppController implements Constants{
     
 
     //**************************************************************************
-    // Asset Functions
+    // FileManagement Functions
     //**************************************************************************
     /**
      * Load a file using JFileChooser. If not valid, throw exception
      * @throws ForbiddenAction thrown if unable to load file
      */
     public void loadFile() throws ForbiddenAction{
-        String          txt     = new String();
-        JFileChooser    chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new File("."));
-        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-        chooser.setPreferredSize (new Dimension (500, 300));
-        int             choice  = chooser.showOpenDialog(null);
-        if (choice == JFileChooser.APPROVE_OPTION) {
-            File    selection   = chooser.getSelectedFile();
-            String  str         = Asset.getStrFromFile(selection);
+        File f = FileManagement.fileChooserDialog(null);
+        if(f!=null){
+            String  str = FileManagement.getStrFromFile(f);
             this.view.getCodePanel().setText(str);
         }
     }
     
     /**
-     * Take a picture of current Panel
+     * Take a picture of current Draw Panel.
+     * Display JFileChooser in order to load file with new name
      */
     public void takePicture(){
-        JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new File("."));
-        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-        chooser.setPreferredSize (new Dimension (500, 300));
-        int returnValue = chooser.showSaveDialog(null);
-        if(returnValue!=JFileChooser.APPROVE_OPTION){
-            return;
-        }
-        File f = chooser.getSelectedFile();
-        if(f.exists()){
-            int choice = UiDialog.showYesNoWarning("File already exists", 
-                            "File "+f.getName()+" already exists! Are you sure you want "
-                            + "do override it?");
-            if(choice!=JOptionPane.OK_OPTION){
-                return;
-            }
-        }
-        //Create img
-        JPanel p = this.view.getDrawPanel();
-        BufferedImage img = new BufferedImage(p.getWidth(), p.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        Graphics g = img.createGraphics();
-        p.paint(g);
-        g.dispose();
+        File f = FileManagement.fileSaverDialog(new Dimension (500, 300));
+        BufferedImage img = this.view.getDrawPanel().getImage();
         try {
             ImageIO.write(img, "png", new File(f.getAbsolutePath()));
         } catch (IOException e) {

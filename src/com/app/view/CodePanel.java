@@ -5,7 +5,7 @@
 package com.app.view;
 
 import com.app.data.AppController;
-import com.app.data.Asset;
+import com.app.data.FileManagement;
 import com.app.data.Constants;
 import com.exceptions.AppError;
 import com.exceptions.ExecError;
@@ -15,10 +15,7 @@ import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -145,7 +142,7 @@ public class CodePanel extends ContentPanel implements Constants{
      * @throws ForbiddenAction throw if not valid name
      */
     public File createFile(String pPath) throws ExecError, ForbiddenAction{
-        return Asset.getFileFromJTextComp(pPath, this.text);
+        return FileManagement.getFileFromJTextComp(pPath, this.text);
     }
     
     

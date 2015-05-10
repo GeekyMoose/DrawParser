@@ -49,8 +49,6 @@ public class Action implements Constants{
     private boolean             isDrawing;
     
     
-    
-
     //**************************************************************************
     // Constructor - Initialization
     //**************************************************************************
@@ -65,7 +63,7 @@ public class Action implements Constants{
         this.isDrawing      = DEFAULT_IS_DRAWING;
         this.isRunning      = true;
         this.isUsed         = true;
-        this.description    = "first";
+        this.description    = "First";
         this.thickness      = DEFAULT_THICKNESS;
     }
     
@@ -91,7 +89,11 @@ public class Action implements Constants{
         this.description        = pInst.getDescription();
         this.calculate();
     }
+
     
+    //**************************************************************************
+    // Functions
+    //**************************************************************************
     /**
      * Calculate each element (Position, origin etc)
      */
