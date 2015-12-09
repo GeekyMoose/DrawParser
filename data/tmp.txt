@@ -1,0 +1,63 @@
+/*
+ * Draw a funny draw on the sceen :p 
+ */
+prog{
+	var tmp;
+	var counter;
+	var angle;
+	var x;
+	var max_width;
+	var max_hight;
+
+	max_width 	= 450;
+	max_hight 	= 450;
+	x		= 10;
+
+
+	//Go to the ground
+	tmp = 0;
+	while(tmp == 0){
+		x = x + 1;
+		if(x == ( (max_hight+(max_hight/3)/2) )){
+			tmp = 1;
+		}
+	}
+	move 	x;
+	down;
+	angle 	= 90;
+	rotate 	angle;
+	x 	= 100;
+	move 	x;
+	angle 	= 35;
+	move 175;
+
+	//Strat drawing the tree
+	rotate 90;
+
+	tmp = 0;
+	counter = 0;
+	move 100;
+	rotate 250;
+	while(tmp==0){
+		counter = counter+1;
+		rotate 7;
+		move 15;
+		if(counter==50){
+			tmp=1;
+		}
+	}
+	up; //Stop drawing
+	move 250;
+	rotate 30;
+	down;
+	move 100;
+
+	//Draw a stem
+	rotate 90;
+	move 20;
+	fat 10;
+	move 20;
+	rotate 20;
+	fat 5;
+	move 30;
+}
